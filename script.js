@@ -1,0 +1,224 @@
+/* ============================================
+   Nippon Matcha — Landing Page Scripts
+   ============================================ */
+
+(function () {
+  'use strict';
+
+  // ---- Intersection Observer: Entrance Animations ----
+
+  const animObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          animObserver.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.15 }
+  );
+
+  document.querySelectorAll('[data-animate]').forEach((el) => {
+    animObserver.observe(el);
+  });
+
+  // ---- Scene 2: Scroll-Linked Tin Rotation ----
+
+  const scene2 = document.querySelector('.scene-2');
+  const tinRotate = document.querySelector('.tin-rotate');
+  let currentRotation = 0;
+  let targetRotation = 0;
+
+  if (scene2 && tinRotate) {
+    window.addEventListener('scroll', function () {
+      const rect = scene2.getBoundingClientRect();
+      const progress = Math.max(0, Math.min(1, -rect.top / rect.height));
+      targetRotation = progress * 360;
+    }, { passive: true });
+
+    function animateRotation() {
+      currentRotation += (targetRotation - currentRotation) * 0.08;
+      const radians = (currentRotation * Math.PI) / 180;
+      const scaleX = Math.max(Math.abs(Math.cos(radians)), 0.3);
+      tinRotate.style.transform =
+        'rotateY(' + currentRotation + 'deg) scaleX(' + scaleX + ')';
+      requestAnimationFrame(animateRotation);
+    }
+    animateRotation();
+  }
+
+  // ---- Scene 3: Ritual Video — Play Once on Visible ----
+
+  const ritualVideo = document.querySelector('.ritual-video');
+  if (ritualVideo) {
+    const ritualObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            ritualVideo.play().catch(function () {});
+            ritualObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+    ritualObserver.observe(ritualVideo);
+  }
+
+  // ---- Scene 7: Ready Bowl Video — Play/Pause on Visibility ----
+
+  const readyVideo = document.querySelector('.ready-video');
+  if (readyVideo) {
+    const readyObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            readyVideo.play().catch(function () {});
+          } else {
+            readyVideo.pause();
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+    readyObserver.observe(readyVideo);
+  }
+
+  // ---- Scene 7: CTA Pulse after entrance ----
+
+  const scene7Cta = document.querySelector('.scene-7__cta');
+  if (scene7Cta) {
+    const pulseObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setTimeout(function () {
+              scene7Cta.classList.add('pulse');
+            }, 1000);
+            pulseObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+    pulseObserver.observe(scene7Cta);
+  }
+
+  // ---- Floating Header ----
+
+  const scene1 = document.querySelector('.scene-1');
+  const header = document.querySelector('.floating-header');
+
+  if (scene1 && header) {
+    const headerObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
+            header.classList.remove('visible');
+          } else if (!entry.isIntersecting) {
+            header.classList.add('visible');
+          }
+        });
+      },
+      { threshold: [0, 0.5] }
+    );
+    headerObserver.observe(scene1);
+  }
+
+  // ---- Mobile Sticky CTA Bar ----
+
+  const scene3 = document.querySelector('.scene-3');
+  const mobileCta = document.querySelector('.mobile-cta-bar');
+
+  if (scene3 && mobileCta) {
+    const mobileCtaObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          // Show bar when scene 3 exits the viewport (scrolled past)
+          if (!entry.isIntersecting) {
+            const rect = scene3.getBoundingClientRect();
+            if (rect.bottom < 0) {
+              mobileCta.classList.add('visible');
+            }
+          }
+        });
+      },
+      { threshold: 0 }
+    );
+    mobileCtaObserver.observe(scene3);
+
+    // Also check scroll to handle scroll back up
+    window.addEventListener('scroll', function () {
+      const rect = scene3.getBoundingClientRect();
+      if (rect.bottom < 0) {
+        mobileCta.classList.add('visible');
+      } else {
+        mobileCta.classList.remove('visible');
+      }
+    }, { passive: true });
+  }
+
+  // ---- Parallax: Scene 4 Image Placeholders ----
+
+  const parallaxImages = document.querySelectorAll('.parallax-image');
+
+  if (parallaxImages.length > 0) {
+    window.addEventListener('scroll', function () {
+      parallaxImages.forEach(function (img) {
+        const rect = img.getBoundingClientRect();
+        const viewH = window.innerHeight;
+        if (rect.top < viewH && rect.bottom > 0) {
+          const scrollDelta = rect.top - viewH / 2;
+          img.style.transform = 'translateY(' + (scrollDelta * 0.4) + 'px)';
+        }
+      });
+    }, { passive: true });
+  }
+
+  // ---- Sakura Particle Generator ----
+
+  const sakuraContainer = document.querySelector('.sakura-container');
+
+  if (sakuraContainer) {
+    const isMobile = window.innerWidth < 768;
+    const petalCount = isMobile ? 5 : 10;
+    const colors = ['#F7D1D5', '#EDAFCA', '#E8A0BF', '#D4A0A0'];
+
+    const petalSVG =
+      '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">' +
+        '<path d="M10 0 C12 4, 16 8, 10 12 C4 8, 8 4, 10 0Z" fill="currentColor" opacity="0.6"/>' +
+        '<path d="M10 0 C14 2, 18 10, 10 12 C2 10, 6 2, 10 0Z" fill="currentColor" opacity="0.4"/>' +
+      '</svg>';
+
+    for (var i = 0; i < petalCount; i++) {
+      var petal = document.createElement('div');
+      petal.className = 'sakura-petal';
+      petal.innerHTML = petalSVG;
+
+      var color = colors[Math.floor(Math.random() * colors.length)];
+      var size = 10 + Math.random() * 10;
+      var leftPos = Math.random() * 100;
+      var opacity = 0.12 + Math.random() * 0.16;
+      var fallDuration = 15 + Math.random() * 13;
+      var swayDuration = 4 + Math.random() * 4;
+      var spinDuration = 8 + Math.random() * 7;
+      var spinDir = Math.random() > 0.5 ? '360deg' : '-360deg';
+      var delay = Math.random() * fallDuration;
+
+      petal.style.cssText =
+        'left:' + leftPos + '%;' +
+        'width:' + size + 'px;' +
+        'height:' + size + 'px;' +
+        'color:' + color + ';' +
+        'opacity:' + opacity + ';' +
+        '--fall-duration:' + fallDuration + 's;' +
+        '--sway-duration:' + swayDuration + 's;' +
+        '--spin-duration:' + spinDuration + 's;' +
+        '--spin-dir:' + spinDir + ';' +
+        '--fall-delay:-' + delay + 's;';
+
+      sakuraContainer.appendChild(petal);
+    }
+  }
+})();
