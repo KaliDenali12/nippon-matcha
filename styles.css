@@ -171,6 +171,7 @@ p {
   min-height: 100vh;
   overflow: hidden;
   contain: layout style;
+  scroll-margin-top: 64px;
 }
 
 .bg-video {
@@ -870,6 +871,22 @@ p {
     text-align: center;
   }
 
+  /* Prevent full-width CTA leak into header and mobile bar */
+  .floating-header .cta-button,
+  .mobile-cta-bar .cta-button {
+    width: auto;
+    max-width: none;
+  }
+
+  /* Scene 6: match other scenes' responsive padding */
+  .scene-6 {
+    padding: 60px 0;
+  }
+
+  .scene-6__inner {
+    padding: 0 24px;
+  }
+
   /* Mobile sticky CTA */
   .mobile-cta-bar {
     display: flex;
@@ -896,8 +913,9 @@ p {
     grid-template-columns: 1fr;
   }
 
-  /* CTA full width */
-  .cta-button {
+  /* CTA full width — scoped to scene buttons only */
+  .scene-1__cta,
+  .scene-7__cta {
     width: calc(100% - 48px);
     max-width: none;
   }
