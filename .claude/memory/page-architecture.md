@@ -16,7 +16,7 @@ Single `index.html` with this DOM order:
 11. `<div class="mobile-cta-bar">` — fixed bottom bar, mobile only. `aria-hidden` toggled by JS with visibility
 12. `<script src="script.js" defer>`
 
-All decorative elements (videos, overlays, transition divs, sakura container) have `aria-hidden="true"`. All sections have `aria-label` for AT navigation.
+All decorative elements (videos, overlays, transition divs, sakura container) have `aria-hidden="true"`. All sections have `aria-label` for AT navigation. All `.scene` elements have `scroll-margin-top: 64px` to offset anchor links below the floating header.
 
 ## Scene Breakdown
 

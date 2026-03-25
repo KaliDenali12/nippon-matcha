@@ -38,8 +38,8 @@ Font loading: `<link>` with `preconnect` to Google Fonts. `display=swap` ensures
 - Default: `padding: 18px 48px`, `font-size: 16px`, uppercase, 2px letter-spacing
 - Small: `.cta-button--small` — `padding: 10px 28px`, `font-size: 13px`
 - Hover: background → `--green-sage-hover`, `box-shadow: 0 4px 24px rgba(74,124,89,0.3)`
-- Mobile (≤768px): `width: 100%`, `max-width: 400px`
-- Mobile (≤480px): `width: calc(100% - 48px)`, `max-width: none`
+- Mobile (≤768px): scene CTAs get `width: 100%`, `max-width: 400px`. Header and mobile bar CTAs are explicitly excluded (`width: auto`)
+- Mobile (≤480px): `.scene-1__cta` and `.scene-7__cta` get `width: calc(100% - 48px)`, `max-width: none`
 
 ## Spacing Conventions
 
@@ -60,14 +60,14 @@ Font loading: `<link>` with `preconnect` to Google Fonts. `display=swap` ensures
 - Scene 2: flex-direction column, gap 40px
 - Scene 4: craft blocks stack, image full-width
 - Scene 5: 3-col → 2-col grid
-- Scene 6: benefits stack vertically
-- CTA: full-width (max 400px)
+- Scene 6: benefits stack vertically, padding matches other scenes (`60px 0`, inner `0 24px`)
+- Scene CTAs: full-width (max 400px). Header/mobile bar CTAs excluded via `.floating-header .cta-button` and `.mobile-cta-bar .cta-button` overrides
 - Mobile CTA bar: `display: flex` (hidden on desktop)
 
 ### 480px (Mobile)
 - h1: 40px → 36px
 - Testimonials: 2-col → 1-col
-- CTA: `calc(100% - 48px)`, no max-width
+- Scene CTAs (`.scene-1__cta`, `.scene-7__cta`): `calc(100% - 48px)`, no max-width
 - Trust strip: flex → `grid 1fr 1fr` (2×2 layout)
 
 ## Focus Styles

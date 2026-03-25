@@ -31,9 +31,9 @@ Premium landing page for Nippon Matcha — organic ceremonial-grade matcha from 
 
 ```
 nippon-matcha/
-├── index.html              # Single-page site (all 7 scenes, ~239 lines)
-├── styles.css              # All styles (~908 lines)
-├── script.js               # All interactions (~245 lines, IIFE)
+├── index.html              # Single-page site (all 7 scenes, ~238 lines)
+├── styles.css              # All styles (~960 lines)
+├── script.js               # All interactions (~249 lines, IIFE)
 ├── CLAUDE.md               # This file
 ├── .gitignore
 ├── assets/
@@ -43,6 +43,8 @@ nippon-matcha/
 │       ├── sakura-hero.mp4 # Scene 1 hero background (3.1 MB, preloaded)
 │       ├── ritual-pour.mp4 # Scene 3 ritual background (5.7 MB, preload="none")
 │       └── ready-bowl.mp4  # Scene 7 final CTA background (4.1 MB, preload="none")
+├── docs/
+│   └── DESIGN_SYSTEM.md    # Human-facing design system reference
 ├── audit-reports/          # Automated audit reports (performance, cleanup, etc.)
 └── .claude/
     └── memory/
@@ -132,8 +134,8 @@ Dark↔light transitions use gradient divs: `.transition-dark-to-light`, `.trans
 ### Responsive Breakpoints
 | Breakpoint | Key Changes |
 |------------|-------------|
-| `768px` | Scenes 2/4 stack, testimonials 2-col, benefits stack, mobile CTA bar shows, CTAs full-width |
-| `480px` | h1→36px, testimonials 1-col, trust strip 2×2 grid, CTA no max-width |
+| `768px` | Scenes 2/4/6 stack, testimonials 2-col, benefits stack, mobile CTA bar shows, scene CTAs full-width (header/mobile bar CTAs excluded) |
+| `480px` | h1→36px, testimonials 1-col, trust strip 2×2 grid, scene CTAs no max-width |
 
 ---
 
