@@ -126,11 +126,10 @@ p {
 [data-delay="4"] { transition-delay: 600ms; }
 [data-delay="5"] { transition-delay: 750ms; }
 
-/* Scene 1 hero-specific delays (200ms base, 200ms stagger — fast entrance) */
-.scene-1 [data-delay="0"] { transition-delay: 200ms; }
-.scene-1 [data-delay="1"] { transition-delay: 400ms; }
-.scene-1 [data-delay="2"] { transition-delay: 600ms; }
-.scene-1 [data-delay="3"] { transition-delay: 800ms; }
+/* Scene 1 hero-specific delays (300ms base, 300ms stagger) */
+.scene-1 [data-delay="0"] { transition-delay: 300ms; }
+.scene-1 [data-delay="1"] { transition-delay: 600ms; }
+.scene-1 [data-delay="2"] { transition-delay: 900ms; }
 
 /* Scene 7 tin: deeper slide-up (40px) */
 .scene-7__tin[data-animate="slide-up"] { transform: translateY(40px); }
@@ -328,30 +327,29 @@ p {
   50% { transform: translateY(-8px); }
 }
 
-.scene-1__headline {
-  font-size: 72px;
+.scene-1__brand {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(48px, 8vw, 96px);
+  font-weight: 300;
   color: var(--text-light);
-  margin: 24px 0 16px;
-  max-width: 800px;
+  letter-spacing: 8px;
+  text-transform: uppercase;
+  margin: 16px 0 8px;
+  line-height: 1;
 }
 
-.scene-1__subheadline {
-  font-size: 20px;
-  color: var(--text-muted);
+.scene-1__tagline {
+  font-family: 'Lato', sans-serif;
+  font-size: clamp(14px, 2vw, 18px);
+  font-weight: 300;
+  color: var(--gold);
+  letter-spacing: 4px;
+  text-transform: uppercase;
   margin: 0 0 32px;
 }
 
 .scene-1__cta {
   margin-bottom: 16px;
-}
-
-.scene-1__micro {
-  font-family: 'Lato', sans-serif;
-  font-weight: 400;
-  font-size: 14px;
-  color: var(--text-muted);
-  letter-spacing: 1px;
-  margin-top: 16px;
 }
 
 /* ============================================
@@ -819,13 +817,6 @@ p {
     max-height: 50vh;
   }
 
-  .scene-1__headline {
-    font-size: 40px;
-  }
-
-  .scene-1__subheadline {
-    font-size: 16px;
-  }
 
   /* Scene 2: stack */
   .scene-2__inner {
@@ -940,10 +931,6 @@ p {
    ============================================ */
 
 @media (max-width: 480px) {
-
-  .scene-1__headline {
-    font-size: 36px;
-  }
 
   /* Scene 5: 1 column */
   .testimonial-grid {
