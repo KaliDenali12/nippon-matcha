@@ -5,6 +5,25 @@
 (function () {
   'use strict';
 
+  // ---- Scroll Handler Throttling (rAF-based) ----
+
+  const scrollCallbacks = [];
+  let scrollTicking = false;
+
+  function onScroll() {
+    if (!scrollTicking) {
+      scrollTicking = true;
+      requestAnimationFrame(function () {
+        for (let i = 0; i < scrollCallbacks.length; i++) {
+          scrollCallbacks[i]();
+        }
+        scrollTicking = false;
+      });
+    }
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+
   // ---- Intersection Observer: Entrance Animations ----
 
   const animObserver = new IntersectionObserver(
@@ -33,11 +52,11 @@
   let rotationRAF = 0;
 
   if (scene2 && tinRotate) {
-    window.addEventListener('scroll', function () {
+    scrollCallbacks.push(function () {
       const rect = scene2.getBoundingClientRect();
       const progress = Math.max(0, Math.min(1, -rect.top / rect.height));
       targetRotation = progress * 360;
-    }, { passive: true });
+    });
 
     function animateRotation() {
       currentRotation += (targetRotation - currentRotation) * 0.08;
@@ -67,6 +86,25 @@
       { threshold: 0, rootMargin: '100px 0px' }
     );
     rotationObserver.observe(scene2);
+  }
+
+  // ---- Below-fold Video Prefetching ----
+  // Start loading video data when user is ~1 viewport away
+
+  const belowFoldVideos = document.querySelectorAll('video[preload="none"]');
+  if (belowFoldVideos.length > 0) {
+    const prefetchObserver = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.preload = 'auto';
+            prefetchObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { rootMargin: '100% 0px' }
+    );
+    belowFoldVideos.forEach(function (v) { prefetchObserver.observe(v); });
   }
 
   // ---- Scene 3: Ritual Video — Play Once on Visible ----
@@ -171,8 +209,8 @@
     );
     mobileCtaObserver.observe(scene3);
 
-    // Also check scroll to handle scroll back up
-    window.addEventListener('scroll', function () {
+    // Also check scroll to handle scroll back up (throttled via rAF)
+    scrollCallbacks.push(function () {
       const rect = scene3.getBoundingClientRect();
       if (rect.bottom < 0) {
         mobileCta.classList.add('visible');
@@ -181,7 +219,7 @@
         mobileCta.classList.remove('visible');
         mobileCta.setAttribute('aria-hidden', 'true');
       }
-    }, { passive: true });
+    });
   }
 
   // ---- Parallax: Scene 4 Image Placeholders ----
@@ -189,16 +227,17 @@
   const parallaxImages = document.querySelectorAll('.parallax-image');
 
   if (parallaxImages.length > 0) {
-    window.addEventListener('scroll', function () {
-      parallaxImages.forEach(function (img) {
-        const rect = img.getBoundingClientRect();
-        const viewH = window.innerHeight;
+    scrollCallbacks.push(function () {
+      for (let i = 0; i < parallaxImages.length; i++) {
+        var img = parallaxImages[i];
+        var rect = img.getBoundingClientRect();
+        var viewH = window.innerHeight;
         if (rect.top < viewH && rect.bottom > 0) {
-          const scrollDelta = rect.top - viewH / 2;
+          var scrollDelta = rect.top - viewH / 2;
           img.style.transform = 'translateY(' + (scrollDelta * 0.4) + 'px)';
         }
-      });
-    }, { passive: true });
+      }
+    });
   }
 
   // ---- Sakura Particle Generator ----
