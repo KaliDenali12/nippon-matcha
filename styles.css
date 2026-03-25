@@ -350,9 +350,9 @@ p {
   margin-bottom: 20px;
 }
 
-.scene-2__final {
+.scene-2__text-col .scene-2__final {
   font-style: italic;
-  color: var(--gold) !important;
+  color: var(--gold);
 }
 
 /* ============================================
