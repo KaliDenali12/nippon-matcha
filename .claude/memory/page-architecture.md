@@ -11,14 +11,14 @@ Single `index.html` with this DOM order:
 6. `.transition-light-to-dark` gradient div
 7. Scenes 6–7
 8. `<div class="mobile-cta-bar">` — fixed bottom bar, mobile only
-9. `<script src="script.js">`
+9. `<script src="script.js" defer>`
 
 ## Scene Breakdown
 
 ### Scene 1 — The Arrival (Hero)
-- Video background: `sakura-hero.mp4` with `autoplay loop muted playsinline`
+- Video background: `sakura-hero.mp4` with `autoplay loop muted playsinline` (preloaded via `<link rel="preload">`)
 - `.scene-overlay` gradient: transparent→dark bottom fade
-- Content: tin image (floating animation), h1, subheadline, CTA, micro text
+- Content: tin image (`fetchpriority="high"`, floating animation), h1, subheadline, CTA, micro text
 - CTA links to `#scene-2` (scroll anchor, not Amazon)
 - Hero animation delays use 300ms stagger (500ms base) — different from default 200ms
 
@@ -26,10 +26,10 @@ Single `index.html` with this DOM order:
 - No video, solid `--bg-primary` background
 - Two-column layout: 40% tin column + text column
 - Tin image has scroll-linked 360° Y-axis rotation (see `animations-interactions.md`)
-- Final paragraph styled italic with `--gold` color via `!important`
+- Final paragraph styled italic with `--gold` color (via `.scene-2__text-col .scene-2__final` specificity)
 
 ### Scene 3 — The Ritual
-- Video: `ritual-pour.mp4` — plays **once** when visible, does not loop
+- Video: `ritual-pour.mp4` — `preload="none"`, plays **once** when visible (triggered by IntersectionObserver), does not loop
 - Slower animation timing: 1200ms duration, 600ms stagger between elements
 - Narrow content width: `max-width: 640px`
 
@@ -51,7 +51,7 @@ Single `index.html` with this DOM order:
 - Animation type: `scale-up` (unique to this scene)
 
 ### Scene 7 — The Invitation (Final CTA)
-- Video: `ready-bowl.mp4` — `loop muted playsinline`, plays/pauses on visibility
+- Video: `ready-bowl.mp4` — `loop muted playsinline preload="none"`, plays/pauses on visibility
 - Tin has deeper slide-up (60px vs standard 30px) and longer duration (1000ms)
 - CTA gets `.pulse` class 1s after entering viewport (2-cycle animation)
 - Trust strip: 4 spans in flex row → 2×2 grid at 480px
@@ -60,6 +60,8 @@ Single `index.html` with this DOM order:
 ## Video Gotchas
 
 - Videos must have `muted` attribute — browsers block autoplay without it
+- Below-fold videos (Scenes 3, 7) use `preload="none"` — bytes only fetched when JS triggers play
+- Scene 1 hero video has `<link rel="preload" as="video">` in `<head>` for faster first paint
 - Scene 3 video plays only once (observer unobserves after play)
 - Scene 7 video toggles play/pause continuously as user scrolls in/out
 - All videos need `object-fit: cover` and absolute positioning within `.scene`

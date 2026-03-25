@@ -31,18 +31,19 @@ Premium landing page for Nippon Matcha — organic ceremonial-grade matcha from 
 
 ```
 nippon-matcha/
-├── index.html              # Single-page site (all 7 scenes, 230 lines)
-├── styles.css              # All styles (877 lines)
-├── script.js               # All interactions (224 lines, IIFE)
+├── index.html              # Single-page site (all 7 scenes, ~230 lines)
+├── styles.css              # All styles (~878 lines)
+├── script.js               # All interactions (~237 lines, IIFE)
 ├── CLAUDE.md               # This file
 ├── .gitignore
 ├── assets/
 │   ├── images/
-│   │   └── tin-100g.png    # Product tin image (used in scenes 1, 2, 7)
+│   │   └── tin-100g.png    # Product tin image (8.4 MB — used in scenes 1, 2, 7)
 │   └── videos/
-│       ├── sakura-hero.mp4 # Scene 1 hero background
-│       ├── ritual-pour.mp4 # Scene 3 ritual background
-│       └── ready-bowl.mp4  # Scene 7 final CTA background
+│       ├── sakura-hero.mp4 # Scene 1 hero background (3.1 MB, preloaded)
+│       ├── ritual-pour.mp4 # Scene 3 ritual background (5.7 MB, preload="none")
+│       └── ready-bowl.mp4  # Scene 7 final CTA background (4.1 MB, preload="none")
+├── audit-reports/          # Automated audit reports (performance, cleanup, etc.)
 └── .claude/
     └── memory/
         └── MEMORY.md       # AI memory index
@@ -88,13 +89,14 @@ Dark↔light transitions use gradient divs: `.transition-dark-to-light`, `.trans
 - All JS is wrapped in a single IIFE — no globals
 
 ### Video Strategy
-- Scene 1: `autoplay loop muted playsinline` (always playing)
-- Scene 3: `muted playsinline`, plays once via IntersectionObserver
-- Scene 7: `muted playsinline`, plays/pauses on visibility toggle
+- Scene 1: `autoplay loop muted playsinline` (always playing), preloaded via `<link rel="preload">`
+- Scene 3: `muted playsinline preload="none"`, plays once via IntersectionObserver
+- Scene 7: `muted playsinline preload="none"`, plays/pauses on visibility toggle
 - All videos: `object-fit: cover`, absolute-positioned backgrounds
+- Below-fold videos use `preload="none"` to avoid fetching ~10 MB on initial load
 
 ### Interactive Elements
-- **Scene 2 tin rotation**: Scroll progress → 360° Y-axis rotation with lerp (0.08 factor) + `scaleX` for 3D effect
+- **Scene 2 tin rotation**: Scroll progress → 360° Y-axis rotation with lerp (0.08 factor) + `scaleX` for 3D effect. rAF loop gated by IntersectionObserver (only runs when visible)
 - **Scene 7 CTA pulse**: 2-cycle scale pulse triggered 1s after entering viewport
 - **Floating header**: Appears when Scene 1 leaves viewport (threshold 0.5)
 - **Mobile sticky CTA bar**: Appears after Scene 3 exits (≤768px only)
@@ -146,7 +148,9 @@ Dark↔light transitions use gradient divs: `.transition-dark-to-light`, `.trans
 
 ## Known TODOs
 
+- **`tin-100g.png` is 8.4 MB** — needs conversion to WebP/AVIF (~50–150 KB target) with `<picture>` fallback. This is the #1 performance bottleneck
 - Scene 4 image placeholders (dashed-border divs with `<span>` text instead of real images)
+- Missing `width`/`height` attributes on `<img>` tags (causes CLS)
 - No favicon
 - No analytics/tracking
 - No deploy pipeline

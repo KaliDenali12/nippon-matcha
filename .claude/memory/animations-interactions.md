@@ -33,14 +33,14 @@ All JS lives in a single IIFE (`script.js:5-224`). No globals, no modules, no ex
 
 ## Scene 2: Scroll-Linked Tin Rotation
 
-`script.js:28-49` — The tin image rotates 360° on Y-axis as user scrolls through Scene 2.
+`script.js:28-70` — The tin image rotates 360° on Y-axis as user scrolls through Scene 2.
 
 - **Progress**: `0–1` based on how far Scene 2 has scrolled past viewport top
 - **Lerp**: `currentRotation += (targetRotation - currentRotation) * 0.08` — smooth interpolation
 - **3D effect**: `scaleX = max(abs(cos(radians)), 0.3)` — simulates perspective narrowing
 - **Transform**: `rotateY(Ndeg) scaleX(N)` applied via `requestAnimationFrame` loop
 - **Scroll listener**: passive, updates `targetRotation` only
-- **Gotcha**: The rAF loop runs continuously once started (no cleanup)
+- **Visibility gating**: rAF loop starts/stops via `rotationObserver` (IntersectionObserver with `rootMargin: '100px 0px'`). Loop only runs when Scene 2 is visible (±100px margin).
 
 ## Video Playback Control
 
@@ -98,7 +98,7 @@ Three separate IntersectionObservers for three different video behaviors:
 
 ## Common Patterns
 
-- **All IntersectionObservers** use `threshold: 0.15` except: header (`[0, 0.5]`)
+- **All IntersectionObservers** use `threshold: 0.15` except: header (`[0, 0.5]`), rotation (`threshold: 0, rootMargin: '100px 0px'`)
 - **All scroll listeners** use `{ passive: true }` — never call `preventDefault()`
 - **Video play** always wrapped in `.catch()` — mobile browsers may reject autoplay
-- **No cleanup**: Observers and rAF loops never disconnect. Fine for a single-page site
+- **rAF cleanup**: Scene 2 rotation loop gated by IntersectionObserver — starts/stops on visibility. Observers themselves persist for page lifetime (fine for single-page site)

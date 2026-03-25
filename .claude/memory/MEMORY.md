@@ -4,9 +4,10 @@ Static landing page for Nippon Matcha (organic ceremonial-grade matcha from Uji,
 
 ## Current State
 
-- **Files**: 3 source files — `index.html` (230 lines), `styles.css` (877 lines), `script.js` (224 lines)
-- **Assets**: 1 product image (`tin-100g.png`), 3 MP4 videos
-- **Known debt**: Scene 4 image placeholders (no real images), no favicon, no analytics, no deploy pipeline
+- **Files**: 3 source files — `index.html` (~230 lines), `styles.css` (~878 lines), `script.js` (~237 lines)
+- **Assets**: 1 product image (`tin-100g.png`, 8.4 MB — needs compression), 3 MP4 videos (~13 MB total)
+- **Known debt**: `tin-100g.png` is 8.4 MB (critical perf issue), Scene 4 image placeholders, no favicon, no analytics, no deploy pipeline
+- **Performance**: Below-fold videos use `preload="none"`, images use `loading="lazy"`, script uses `defer`, rAF loop gated by visibility
 - **GitHub**: https://github.com/KaliDenali12/nippon-matcha
 
 ## Topic Files
