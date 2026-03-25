@@ -23,7 +23,7 @@ Premium landing page for Nippon Matcha — organic ceremonial-grade matcha from 
 | Styling | Vanilla CSS3 (custom properties, flexbox, grid, keyframe animations) |
 | Scripting | Vanilla JavaScript (ES6, IIFE pattern) |
 | Fonts | Google Fonts — Cormorant Garamond (headings), Lato (body) |
-| Hosting | TODO: Netlify, GitHub Pages, or similar static host |
+| Hosting | Netlify — https://nippon-matcha.netlify.app |
 
 ---
 
@@ -58,7 +58,7 @@ nippon-matcha/
 ```bash
 npx serve .                    # Node static server
 python -m http.server 8000     # Python alternative
-# No build, no tests, no deploy pipeline yet
+npx netlify-cli deploy --prod --dir .  # Deploy to production
 ```
 
 ---
@@ -162,9 +162,7 @@ Dark↔light transitions use gradient divs: `.transition-dark-to-light`, `.trans
 - **`tin-100g.png` is 8.4 MB** — needs conversion to WebP/AVIF (~50–150 KB target) with `<picture>` fallback. This is the #1 performance bottleneck
 - Scene 4 image placeholders (dashed-border divs with `<span>` text instead of real images)
 - No footer (no contact info, privacy policy, or company details)
-- No favicon
-- No analytics/tracking
-- No deploy pipeline
+- No analytics/tracking (not needed — this is an exercise)
 - No `<meta og:image>` or social sharing images
 - No `poster` attribute on `<video>` elements (no fallback frame if video fails to load)
 
