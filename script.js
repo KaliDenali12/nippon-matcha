@@ -191,20 +191,20 @@
         '<path d="M10 0 C14 2, 18 10, 10 12 C2 10, 6 2, 10 0Z" fill="currentColor" opacity="0.4"/>' +
       '</svg>';
 
-    for (var i = 0; i < petalCount; i++) {
-      var petal = document.createElement('div');
+    for (let i = 0; i < petalCount; i++) {
+      const petal = document.createElement('div');
       petal.className = 'sakura-petal';
       petal.innerHTML = petalSVG;
 
-      var color = colors[Math.floor(Math.random() * colors.length)];
-      var size = 10 + Math.random() * 10;
-      var leftPos = Math.random() * 100;
-      var opacity = 0.12 + Math.random() * 0.16;
-      var fallDuration = 15 + Math.random() * 13;
-      var swayDuration = 4 + Math.random() * 4;
-      var spinDuration = 8 + Math.random() * 7;
-      var spinDir = Math.random() > 0.5 ? '360deg' : '-360deg';
-      var delay = Math.random() * fallDuration;
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      const size = 10 + Math.random() * 10;
+      const leftPos = Math.random() * 100;
+      const opacity = 0.12 + Math.random() * 0.16;
+      const fallDuration = 15 + Math.random() * 13;
+      const swayDuration = 4 + Math.random() * 4;
+      const spinDuration = 8 + Math.random() * 7;
+      const spinDir = Math.random() > 0.5 ? '360deg' : '-360deg';
+      const delay = Math.random() * fallDuration;
 
       petal.style.cssText =
         'left:' + leftPos + '%;' +
