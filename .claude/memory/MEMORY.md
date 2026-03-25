@@ -4,7 +4,7 @@ Static landing page for Nippon Matcha (organic ceremonial-grade matcha from Uji,
 
 ## Current State
 
-- **Files**: 3 source files — `index.html` (~230 lines), `styles.css` (~878 lines), `script.js` (~237 lines)
+- **Files**: 3 source files — `index.html` (~239 lines), `styles.css` (~908 lines), `script.js` (~245 lines)
 - **Assets**: 1 product image (`tin-100g.png`, 8.4 MB — needs compression), 3 MP4 videos (~13 MB total)
 - **Known debt**: `tin-100g.png` is 8.4 MB (critical perf issue), Scene 4 image placeholders, no favicon, no analytics, no deploy pipeline
 - **Performance**: Below-fold videos use `preload="none"`, images use `loading="lazy"`, script uses `defer`, rAF loop gated by visibility
@@ -28,3 +28,4 @@ Static landing page for Nippon Matcha (organic ceremonial-grade matcha from Uji,
 - **No globals**: All JS wrapped in a single IIFE with `'use strict'`
 - **Video autoplay**: Always include `muted` attribute. Always `.catch()` the `.play()` promise
 - **Amazon link**: All purchase CTAs use the same URL — update in one place if product changes
+- **Accessibility**: Skip link, `<main>` landmark, `:focus-visible` styles, `prefers-reduced-motion` media query, `aria-hidden` toggled with visibility on header/mobile CTA bar, `aria-label` on all sections, decorative elements marked `aria-hidden="true"`

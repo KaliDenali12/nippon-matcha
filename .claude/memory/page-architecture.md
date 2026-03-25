@@ -3,15 +3,20 @@
 ## HTML Structure
 
 Single `index.html` with this DOM order:
-1. `<header class="floating-header">` — fixed, hidden by default, shows after Scene 1
-2. `<div class="sakura-container">` — fixed particle overlay, `aria-hidden="true"`
-3. Scenes 1–4 (`<section class="scene scene-N" id="scene-N">`)
-4. `.transition-dark-to-light` gradient div
-5. Scene 5 (light background)
-6. `.transition-light-to-dark` gradient div
-7. Scenes 6–7
-8. `<div class="mobile-cta-bar">` — fixed bottom bar, mobile only
-9. `<script src="script.js" defer>`
+1. `<a class="skip-link">` — skip navigation, visually hidden until focused
+2. `<header class="floating-header">` — fixed, hidden by default, shows after Scene 1. `aria-hidden` toggled by JS with visibility
+3. `<div class="sakura-container">` — fixed particle overlay, `aria-hidden="true"`
+4. `<main>` — wraps all content sections
+5. Scenes 1–4 (`<section class="scene scene-N" id="scene-N" aria-label="...">`)
+6. `.transition-dark-to-light` gradient div (`aria-hidden="true"`)
+7. Scene 5 (light background)
+8. `.transition-light-to-dark` gradient div (`aria-hidden="true"`)
+9. Scenes 6–7
+10. `</main>`
+11. `<div class="mobile-cta-bar">` — fixed bottom bar, mobile only. `aria-hidden` toggled by JS with visibility
+12. `<script src="script.js" defer>`
+
+All decorative elements (videos, overlays, transition divs, sakura container) have `aria-hidden="true"`. All sections have `aria-label` for AT navigation.
 
 ## Scene Breakdown
 
@@ -69,5 +74,7 @@ Single `index.html` with this DOM order:
 
 ## Floating Header & Mobile CTA Bar
 
-- **Header**: Hidden (`translateY(-100%)`) until Scene 1 leaves viewport. Uses IntersectionObserver with `threshold: [0, 0.5]`
-- **Mobile CTA bar**: Hidden (`translateY(100%)`) until Scene 3 exits viewport AND `rect.bottom < 0`. Only visible at ≤768px (CSS `display: none` on desktop). Also listens to scroll event for back-up detection
+- **Header**: Hidden (`translateY(-100%)`) until Scene 1 leaves viewport. Uses IntersectionObserver with `threshold: [0, 0.5]`. JS toggles both `.visible` class and `aria-hidden` attribute simultaneously
+- **Mobile CTA bar**: Hidden (`translateY(100%)`) until Scene 3 exits viewport AND `rect.bottom < 0`. Only visible at ≤768px (CSS `display: none` on desktop). Also listens to scroll event for back-up detection. JS toggles both `.visible` class and `aria-hidden` attribute simultaneously
+
+**Important**: When showing/hiding these elements, always toggle `aria-hidden` alongside the `.visible` class — otherwise interactive links inside them become invisible to screen readers while visible, or vice versa.

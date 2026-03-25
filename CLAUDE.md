@@ -31,9 +31,9 @@ Premium landing page for Nippon Matcha — organic ceremonial-grade matcha from 
 
 ```
 nippon-matcha/
-├── index.html              # Single-page site (all 7 scenes, ~230 lines)
-├── styles.css              # All styles (~878 lines)
-├── script.js               # All interactions (~237 lines, IIFE)
+├── index.html              # Single-page site (all 7 scenes, ~239 lines)
+├── styles.css              # All styles (~908 lines)
+├── script.js               # All interactions (~245 lines, IIFE)
 ├── CLAUDE.md               # This file
 ├── .gitignore
 ├── assets/
@@ -141,7 +141,8 @@ Dark↔light transitions use gradient divs: `.transition-dark-to-light`, `.trans
 
 - **CSS**: BEM-like naming (`scene-1__headline`, `craft-block--right`), custom properties for all colors
 - **JS**: Single IIFE, no global variables, `'use strict'`, IntersectionObserver for all visibility logic
-- **HTML**: Semantic sections, `data-animate` + `data-delay` attributes for animation, `aria-hidden="true"` on decorative elements
+- **HTML**: Semantic sections wrapped in `<main>`, `data-animate` + `data-delay` attributes for animation, `aria-hidden="true"` on decorative elements, `aria-label` on all `<section>` landmarks
+- **Accessibility**: Skip-link (`<a class="skip-link">`), `:focus-visible` styles on all interactive elements, `aria-hidden` toggles with visibility on floating header and mobile CTA bar, `prefers-reduced-motion` media query disables all animations
 - **No dependencies**: No npm, no CDN libraries — just Google Fonts
 
 ---

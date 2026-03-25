@@ -70,6 +70,21 @@ Font loading: `<link>` with `preconnect` to Google Fonts. `display=swap` ensures
 - CTA: `calc(100% - 48px)`, no max-width
 - Trust strip: flex → `grid 1fr 1fr` (2×2 layout)
 
+## Focus Styles
+
+- `:focus-visible` applied globally: `2px solid var(--gold)`, `outline-offset: 3px`
+- `.cta-button:focus-visible` override: `2px solid var(--bg-cream)`, `outline-offset: 3px`, `box-shadow: 0 0 0 5px rgba(74, 124, 89, 0.4)` (green ring)
+- `.skip-link`: visually hidden (`top: -100%`), revealed on focus (`top: 0`)
+
+## Reduced Motion
+
+`@media (prefers-reduced-motion: reduce)` at end of `styles.css`:
+- Disables all animation durations, transition durations, and iteration counts
+- Forces `scroll-behavior: auto` (no smooth scrolling)
+- Shows `[data-animate]` elements immediately (`opacity: 1; transform: none`)
+- Hides sakura petals (`display: none`)
+- Stops Scene 1 tin floating animation
+
 ## CSS Architecture
 
 - **No preprocessor** — vanilla CSS only

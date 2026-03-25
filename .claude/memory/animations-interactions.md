@@ -57,20 +57,22 @@ Three separate IntersectionObservers for three different video behaviors:
 
 ## Floating Header
 
-`script.js:110-127`
+`script.js:129-150`
 
 - Observer on `.scene-1` with `threshold: [0, 0.5]`
-- Scene 1 visible (ratio > 0.5) → header hidden (`remove('visible')`)
-- Scene 1 not visible → header shown (`add('visible')`)
+- Scene 1 visible (ratio > 0.5) → header hidden (`remove('visible')`, `aria-hidden="true"`)
+- Scene 1 not visible → header shown (`add('visible')`, `aria-hidden="false"`)
+- Both `.visible` class and `aria-hidden` attribute must be toggled together
 - CSS: `transform: translateY(-100%)` ↔ `translateY(0)`, 400ms transition
 
 ## Mobile Sticky CTA Bar
 
-`script.js:131-160`
+`script.js:152-183`
 
 - Observer on `.scene-3` + scroll listener (backup)
 - Shows when `scene3.getBoundingClientRect().bottom < 0` (scrolled past Scene 3)
 - Hides when scrolling back up above Scene 3
+- Both `.visible` class and `aria-hidden` attribute must be toggled together
 - CSS: `display: none` on desktop, `display: flex` at ≤768px
 - Transform: `translateY(100%)` ↔ `translateY(0)`, 400ms transition
 
