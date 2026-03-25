@@ -42,52 +42,6 @@
     animObserver.observe(el);
   });
 
-  // ---- Scene 2: Scroll-Linked Tin Rotation ----
-
-  const scene2 = document.querySelector('.scene-2');
-  const tinRotate = document.querySelector('.tin-rotate');
-  let currentRotation = 0;
-  let targetRotation = 0;
-  let rotationActive = false;
-  let rotationRAF = 0;
-
-  if (scene2 && tinRotate) {
-    scrollCallbacks.push(function () {
-      const rect = scene2.getBoundingClientRect();
-      const progress = Math.max(0, Math.min(1, -rect.top / rect.height));
-      targetRotation = progress * 360;
-    });
-
-    function animateRotation() {
-      currentRotation += (targetRotation - currentRotation) * 0.08;
-      const radians = (currentRotation * Math.PI) / 180;
-      const scaleX = Math.max(Math.abs(Math.cos(radians)), 0.3);
-      tinRotate.style.transform =
-        'rotateY(' + currentRotation + 'deg) scaleX(' + scaleX + ')';
-      if (rotationActive) {
-        rotationRAF = requestAnimationFrame(animateRotation);
-      }
-    }
-
-    const rotationObserver = new IntersectionObserver(
-      function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            if (!rotationActive) {
-              rotationActive = true;
-              rotationRAF = requestAnimationFrame(animateRotation);
-            }
-          } else {
-            rotationActive = false;
-            cancelAnimationFrame(rotationRAF);
-          }
-        });
-      },
-      { threshold: 0, rootMargin: '100px 0px' }
-    );
-    rotationObserver.observe(scene2);
-  }
-
   // ---- Below-fold Video Prefetching ----
   // Start loading video data when user is ~1 viewport away
 
