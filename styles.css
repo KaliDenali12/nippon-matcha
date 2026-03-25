@@ -42,6 +42,40 @@ img {
   height: auto;
 }
 
+/* ---- Skip Link ---- */
+
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 16px;
+  z-index: 10000;
+  padding: 12px 24px;
+  background: var(--green-sage);
+  color: var(--bg-cream);
+  font-family: 'Lato', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  text-decoration: none;
+  border-radius: 0 0 8px 8px;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* ---- Focus Styles ---- */
+
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+.cta-button:focus-visible {
+  outline: 2px solid var(--bg-cream);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 5px rgba(74, 124, 89, 0.4);
+}
+
 /* ---- Typography ---- */
 
 h1, h2, h3 {
@@ -874,5 +908,35 @@ p {
     grid-template-columns: 1fr 1fr;
     gap: 12px;
     text-align: center;
+  }
+}
+
+/* ============================================
+   Reduced Motion
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  [data-animate] {
+    opacity: 1;
+    transform: none;
+  }
+
+  .sakura-petal {
+    display: none;
+  }
+
+  .scene-1__tin {
+    animation: none;
   }
 }

@@ -137,8 +137,10 @@
         entries.forEach((entry) => {
           if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
             header.classList.remove('visible');
+            header.setAttribute('aria-hidden', 'true');
           } else if (!entry.isIntersecting) {
             header.classList.add('visible');
+            header.setAttribute('aria-hidden', 'false');
           }
         });
       },
@@ -174,8 +176,10 @@
       const rect = scene3.getBoundingClientRect();
       if (rect.bottom < 0) {
         mobileCta.classList.add('visible');
+        mobileCta.setAttribute('aria-hidden', 'false');
       } else {
         mobileCta.classList.remove('visible');
+        mobileCta.setAttribute('aria-hidden', 'true');
       }
     }, { passive: true });
   }
