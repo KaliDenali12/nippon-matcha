@@ -11,9 +11,23 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="preload" as="video" href="assets/videos/sakura-hero.mp4" type="video/mp4">
+  <link rel="preload" as="image" href="assets/images/tin-100g.png">
   <link rel="stylesheet" href="styles.css">
+  <!-- Critical inline styles: prevent FOUC on hero content -->
+  <style>
+    /* Ensure hero scene paints immediately with correct layout */
+    .scene-1 { display: flex; align-items: center; justify-content: center; height: 100vh; position: relative; overflow: hidden; background-color: #1A1A1A; }
+    .scene-1__content { position: relative; z-index: 2; text-align: center; }
+    .bg-video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+    /* Hero elements visible instantly — no opacity:0 flash */
+    .scene-1 [data-animate] { opacity: 0; }
+  </style>
 </head>
 <body>
+
+  <!-- Skip Navigation -->
+  <a href="#scene-1" class="skip-link">Skip to main content</a>
 
   <!-- Floating Header -->
   <header class="floating-header" aria-hidden="true">
@@ -26,14 +40,16 @@
   <!-- Sakura Particle Overlay -->
   <div class="sakura-container" aria-hidden="true"></div>
 
+  <main>
+
   <!-- Scene 1: The Arrival (Hero) -->
-  <section class="scene scene-1" id="scene-1">
-    <video class="bg-video" autoplay loop muted playsinline>
+  <section class="scene scene-1" id="scene-1" aria-label="Hero — The Arrival">
+    <video class="bg-video" autoplay loop muted playsinline aria-hidden="true">
       <source src="assets/videos/sakura-hero.mp4" type="video/mp4">
     </video>
-    <div class="scene-overlay scene-1__overlay"></div>
+    <div class="scene-overlay scene-1__overlay" aria-hidden="true"></div>
     <div class="scene-1__content">
-      <img src="assets/images/tin-100g.png" alt="Nippon Matcha 100g tin" class="scene-1__tin">
+      <img src="assets/images/tin-100g.png" alt="Nippon Matcha 100g tin" class="scene-1__tin" fetchpriority="high">
       <h1 class="scene-1__headline" data-animate="slide-up" data-delay="0">From the First Harvest. For Your First Sip.</h1>
       <p class="scene-1__subheadline" data-animate="slide-up" data-delay="1">Organic Ceremonial Matcha from a Single Estate in Uji, Kyoto</p>
       <a href="#scene-2" class="cta-button scene-1__cta" data-animate="slide-up" data-delay="2">Discover Nippon Matcha</a>
@@ -42,11 +58,11 @@
   </section>
 
   <!-- Scene 2: The Origin -->
-  <section class="scene scene-2" id="scene-2">
+  <section class="scene scene-2" id="scene-2" aria-label="Our Origin">
     <div class="scene-2__inner">
       <div class="scene-2__tin-col">
         <div class="scene-2__tin-wrapper">
-          <img src="assets/images/tin-100g.png" alt="Nippon Matcha tin rotating" class="tin-rotate">
+          <img src="assets/images/tin-100g.png" alt="Nippon Matcha tin rotating" class="tin-rotate" loading="lazy">
         </div>
       </div>
       <div class="scene-2__text-col">
@@ -60,11 +76,11 @@
   </section>
 
   <!-- Scene 3: The Ritual -->
-  <section class="scene scene-3" id="scene-3">
-    <video class="bg-video ritual-video" muted playsinline>
+  <section class="scene scene-3" id="scene-3" aria-label="The Ritual">
+    <video class="bg-video ritual-video" muted playsinline preload="none" aria-hidden="true">
       <source src="assets/videos/ritual-pour.mp4" type="video/mp4">
     </video>
-    <div class="scene-overlay scene-3__overlay"></div>
+    <div class="scene-overlay scene-3__overlay" aria-hidden="true"></div>
     <div class="scene-3__content">
       <h2 class="section-headline" data-animate="fade-only" data-delay="0">A Ritual You Can Taste</h2>
       <p data-animate="fade-only" data-delay="1">Close your eyes. The bamboo scoop lifts a cloud of jade-green powder. It falls like fine sand into warm ceramic. The whisk moves. Foam rises. Steam curls.</p>
@@ -74,7 +90,7 @@
   </section>
 
   <!-- Scene 4: The Craft -->
-  <section class="scene scene-4" id="scene-4">
+  <section class="scene scene-4" id="scene-4" aria-label="Our Craft">
     <div class="scene-4__inner">
       <h2 class="section-headline scene-4__headline" data-animate="slide-up" data-delay="0">From Shade to Stone. Every Step Matters.</h2>
 
@@ -123,45 +139,45 @@
   </section>
 
   <!-- Transition: dark to light -->
-  <div class="transition-dark-to-light"></div>
+  <div class="transition-dark-to-light" aria-hidden="true"></div>
 
   <!-- Scene 5: The Testimony -->
-  <section class="scene scene-5" id="scene-5">
+  <section class="scene scene-5" id="scene-5" aria-label="Customer Testimonials">
     <div class="scene-5__inner">
       <h2 class="section-headline scene-5__headline" data-animate="slide-up" data-delay="0">What the First Sip Feels Like</h2>
-      <div class="scene-5__stars" data-animate="fade-only" data-delay="1">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <div class="scene-5__stars" data-animate="fade-only" data-delay="1" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
 
       <div class="testimonial-grid">
         <div class="testimonial-card" data-animate="slide-up" data-delay="1">
-          <div class="testimonial-card__stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <div class="testimonial-card__stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
           <blockquote>"This Matcha has a fresh, complex taste that balances a mild, non-astringent bitterness with grassy notes and a rich umami flavor. Love it!!"</blockquote>
           <p class="testimonial-card__name">Ada Y.</p>
           <p class="testimonial-card__badge">Verified Buyer</p>
         </div>
 
         <div class="testimonial-card" data-animate="slide-up" data-delay="2">
-          <div class="testimonial-card__stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <div class="testimonial-card__stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
           <blockquote>"Today I made my favorite morning drink with your matcha. The taste is delicate, calm, foams very well — just what you need for a perfect match. I like the good volume of the product; it will last a little longer than a small jar."</blockquote>
           <p class="testimonial-card__name">Kristina S.</p>
           <p class="testimonial-card__badge">Verified Reviewer</p>
         </div>
 
         <div class="testimonial-card" data-animate="slide-up" data-delay="3">
-          <div class="testimonial-card__stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <div class="testimonial-card__stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
           <blockquote>"I tend to stay away from organic matcha. The ones I've had previously have always been bitter and astringent, making it difficult to drink. They also always give me a headache and nausea. Nippon did not do that to me!"</blockquote>
           <p class="testimonial-card__name">Ashley</p>
           <p class="testimonial-card__badge">Verified Reviewer</p>
         </div>
 
         <div class="testimonial-card" data-animate="slide-up" data-delay="4">
-          <div class="testimonial-card__stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <div class="testimonial-card__stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
           <blockquote>"I actually was surprised how umami this tastes and the color was pretty vibrant."</blockquote>
           <p class="testimonial-card__name">Sabrina</p>
           <p class="testimonial-card__badge">Verified Reviewer</p>
         </div>
 
         <div class="testimonial-card" data-animate="slide-up" data-delay="5">
-          <div class="testimonial-card__stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <div class="testimonial-card__stars" role="img" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
           <blockquote>"I've been loving this Nippon Matcha — it's vibrant, smooth, and has the perfect balance of earthy and naturally sweet flavor. It makes the creamiest lattes and feels like such a calming, energizing ritual in my day."</blockquote>
           <p class="testimonial-card__name">Laura</p>
           <p class="testimonial-card__badge">Verified Reviewer</p>
@@ -171,10 +187,10 @@
   </section>
 
   <!-- Transition: light to dark -->
-  <div class="transition-light-to-dark"></div>
+  <div class="transition-light-to-dark" aria-hidden="true"></div>
 
   <!-- Scene 6: The Promise -->
-  <section class="scene scene-6" id="scene-6">
+  <section class="scene scene-6" id="scene-6" aria-label="Our Promise">
     <div class="scene-6__inner">
       <h2 class="section-headline" data-animate="slide-up" data-delay="0">What Nippon Matcha Brings to Your Day</h2>
 
@@ -198,13 +214,13 @@
   </section>
 
   <!-- Scene 7: The Invitation (Final CTA) -->
-  <section class="scene scene-7" id="scene-7">
-    <video class="bg-video ready-video" loop muted playsinline>
+  <section class="scene scene-7" id="scene-7" aria-label="Shop Now">
+    <video class="bg-video ready-video" loop muted playsinline preload="none" aria-hidden="true">
       <source src="assets/videos/ready-bowl.mp4" type="video/mp4">
     </video>
-    <div class="scene-overlay scene-7__overlay"></div>
+    <div class="scene-overlay scene-7__overlay" aria-hidden="true"></div>
     <div class="scene-7__content">
-      <img src="assets/images/tin-100g.png" alt="Nippon Matcha 100g tin" class="scene-7__tin" data-animate="slide-up" data-delay="0">
+      <img src="assets/images/tin-100g.png" alt="Nippon Matcha 100g tin" class="scene-7__tin" data-animate="slide-up" data-delay="0" loading="lazy">
       <h2 class="section-headline" data-animate="fade-only" data-delay="1">Your First Sip Awaits</h2>
       <p class="scene-7__body" data-animate="fade-only" data-delay="2">One farm in Uji. One harvest each spring. Stone-ground with 800 years of tradition. This is the matcha you've been searching for.</p>
       <a href="https://www.amazon.com/Nippon-Matcha-Ceremonial-Certified-Stone-Ground/dp/B0FFSXTJWK" target="_blank" rel="noopener" class="cta-button scene-7__cta" data-animate="fade-only" data-delay="3">Begin Your Ritual — Shop on Amazon</a>
@@ -219,12 +235,14 @@
     </div>
   </section>
 
+  </main>
+
   <!-- Mobile Sticky CTA Bar -->
   <div class="mobile-cta-bar" aria-hidden="true">
     <span class="mobile-cta-bar__price">$50 &middot; Free Shipping</span>
     <a href="https://www.amazon.com/Nippon-Matcha-Ceremonial-Certified-Stone-Ground/dp/B0FFSXTJWK" target="_blank" rel="noopener" class="cta-button cta-button--small">Shop Now</a>
   </div>
 
-  <script src="script.js"></script>
+  <script src="script.js" defer></script>
 </body>
 </html>

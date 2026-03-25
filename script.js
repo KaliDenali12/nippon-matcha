@@ -5,6 +5,25 @@
 (function () {
   'use strict';
 
+  // ---- Scroll Handler Throttling (rAF-based) ----
+
+  const scrollCallbacks = [];
+  let scrollTicking = false;
+
+  function onScroll() {
+    if (!scrollTicking) {
+      scrollTicking = true;
+      requestAnimationFrame(function () {
+        for (let i = 0; i < scrollCallbacks.length; i++) {
+          scrollCallbacks[i]();
+        }
+        scrollTicking = false;
+      });
+    }
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+
   // ---- Intersection Observer: Entrance Animations ----
 
   const animObserver = new IntersectionObserver(
@@ -29,13 +48,15 @@
   const tinRotate = document.querySelector('.tin-rotate');
   let currentRotation = 0;
   let targetRotation = 0;
+  let rotationActive = false;
+  let rotationRAF = 0;
 
   if (scene2 && tinRotate) {
-    window.addEventListener('scroll', function () {
+    scrollCallbacks.push(function () {
       const rect = scene2.getBoundingClientRect();
       const progress = Math.max(0, Math.min(1, -rect.top / rect.height));
       targetRotation = progress * 360;
-    }, { passive: true });
+    });
 
     function animateRotation() {
       currentRotation += (targetRotation - currentRotation) * 0.08;
@@ -43,9 +64,47 @@
       const scaleX = Math.max(Math.abs(Math.cos(radians)), 0.3);
       tinRotate.style.transform =
         'rotateY(' + currentRotation + 'deg) scaleX(' + scaleX + ')';
-      requestAnimationFrame(animateRotation);
+      if (rotationActive) {
+        rotationRAF = requestAnimationFrame(animateRotation);
+      }
     }
-    animateRotation();
+
+    const rotationObserver = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            if (!rotationActive) {
+              rotationActive = true;
+              rotationRAF = requestAnimationFrame(animateRotation);
+            }
+          } else {
+            rotationActive = false;
+            cancelAnimationFrame(rotationRAF);
+          }
+        });
+      },
+      { threshold: 0, rootMargin: '100px 0px' }
+    );
+    rotationObserver.observe(scene2);
+  }
+
+  // ---- Below-fold Video Prefetching ----
+  // Start loading video data when user is ~1 viewport away
+
+  const belowFoldVideos = document.querySelectorAll('video[preload="none"]');
+  if (belowFoldVideos.length > 0) {
+    const prefetchObserver = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.preload = 'auto';
+            prefetchObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { rootMargin: '100% 0px' }
+    );
+    belowFoldVideos.forEach(function (v) { prefetchObserver.observe(v); });
   }
 
   // ---- Scene 3: Ritual Video — Play Once on Visible ----
@@ -116,8 +175,10 @@
         entries.forEach((entry) => {
           if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
             header.classList.remove('visible');
+            header.setAttribute('aria-hidden', 'true');
           } else if (!entry.isIntersecting) {
             header.classList.add('visible');
+            header.setAttribute('aria-hidden', 'false');
           }
         });
       },
@@ -148,15 +209,17 @@
     );
     mobileCtaObserver.observe(scene3);
 
-    // Also check scroll to handle scroll back up
-    window.addEventListener('scroll', function () {
+    // Also check scroll to handle scroll back up (throttled via rAF)
+    scrollCallbacks.push(function () {
       const rect = scene3.getBoundingClientRect();
       if (rect.bottom < 0) {
         mobileCta.classList.add('visible');
+        mobileCta.setAttribute('aria-hidden', 'false');
       } else {
         mobileCta.classList.remove('visible');
+        mobileCta.setAttribute('aria-hidden', 'true');
       }
-    }, { passive: true });
+    });
   }
 
   // ---- Parallax: Scene 4 Image Placeholders ----
@@ -164,16 +227,17 @@
   const parallaxImages = document.querySelectorAll('.parallax-image');
 
   if (parallaxImages.length > 0) {
-    window.addEventListener('scroll', function () {
-      parallaxImages.forEach(function (img) {
-        const rect = img.getBoundingClientRect();
-        const viewH = window.innerHeight;
+    scrollCallbacks.push(function () {
+      for (let i = 0; i < parallaxImages.length; i++) {
+        var img = parallaxImages[i];
+        var rect = img.getBoundingClientRect();
+        var viewH = window.innerHeight;
         if (rect.top < viewH && rect.bottom > 0) {
-          const scrollDelta = rect.top - viewH / 2;
+          var scrollDelta = rect.top - viewH / 2;
           img.style.transform = 'translateY(' + (scrollDelta * 0.4) + 'px)';
         }
-      });
-    }, { passive: true });
+      }
+    });
   }
 
   // ---- Sakura Particle Generator ----
@@ -191,20 +255,20 @@
         '<path d="M10 0 C14 2, 18 10, 10 12 C2 10, 6 2, 10 0Z" fill="currentColor" opacity="0.4"/>' +
       '</svg>';
 
-    for (var i = 0; i < petalCount; i++) {
-      var petal = document.createElement('div');
+    for (let i = 0; i < petalCount; i++) {
+      const petal = document.createElement('div');
       petal.className = 'sakura-petal';
       petal.innerHTML = petalSVG;
 
-      var color = colors[Math.floor(Math.random() * colors.length)];
-      var size = 10 + Math.random() * 10;
-      var leftPos = Math.random() * 100;
-      var opacity = 0.12 + Math.random() * 0.16;
-      var fallDuration = 15 + Math.random() * 13;
-      var swayDuration = 4 + Math.random() * 4;
-      var spinDuration = 8 + Math.random() * 7;
-      var spinDir = Math.random() > 0.5 ? '360deg' : '-360deg';
-      var delay = Math.random() * fallDuration;
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      const size = 10 + Math.random() * 10;
+      const leftPos = Math.random() * 100;
+      const opacity = 0.12 + Math.random() * 0.16;
+      const fallDuration = 15 + Math.random() * 13;
+      const swayDuration = 4 + Math.random() * 4;
+      const spinDuration = 8 + Math.random() * 7;
+      const spinDir = Math.random() > 0.5 ? '360deg' : '-360deg';
+      const delay = Math.random() * fallDuration;
 
       petal.style.cssText =
         'left:' + leftPos + '%;' +

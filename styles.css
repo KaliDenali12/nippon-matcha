@@ -42,6 +42,40 @@ img {
   height: auto;
 }
 
+/* ---- Skip Link ---- */
+
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 16px;
+  z-index: 10000;
+  padding: 12px 24px;
+  background: var(--green-sage);
+  color: var(--bg-cream);
+  font-family: 'Lato', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  text-decoration: none;
+  border-radius: 0 0 8px 8px;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* ---- Focus Styles ---- */
+
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+.cta-button:focus-visible {
+  outline: 2px solid var(--bg-cream);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 5px rgba(74, 124, 89, 0.4);
+}
+
 /* ---- Typography ---- */
 
 h1, h2, h3 {
@@ -64,12 +98,14 @@ p {
 
 [data-animate] {
   opacity: 0;
-  transition: opacity 800ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
-              transform 800ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: opacity 600ms cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              transform 600ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: opacity, transform;
 }
 
 [data-animate].visible {
   opacity: 1;
+  will-change: auto;
 }
 
 [data-animate="slide-up"] { transform: translateY(30px); }
@@ -84,22 +120,22 @@ p {
 [data-animate="fade-only"].visible { /* opacity handled by base */ }
 
 [data-delay="0"] { transition-delay: 0ms; }
-[data-delay="1"] { transition-delay: 200ms; }
-[data-delay="2"] { transition-delay: 400ms; }
-[data-delay="3"] { transition-delay: 600ms; }
-[data-delay="4"] { transition-delay: 800ms; }
-[data-delay="5"] { transition-delay: 1000ms; }
+[data-delay="1"] { transition-delay: 150ms; }
+[data-delay="2"] { transition-delay: 300ms; }
+[data-delay="3"] { transition-delay: 450ms; }
+[data-delay="4"] { transition-delay: 600ms; }
+[data-delay="5"] { transition-delay: 750ms; }
 
-/* Scene 1 hero-specific delays (500ms base, 300ms stagger) */
-.scene-1 [data-delay="0"] { transition-delay: 500ms; }
-.scene-1 [data-delay="1"] { transition-delay: 800ms; }
-.scene-1 [data-delay="2"] { transition-delay: 1100ms; }
-.scene-1 [data-delay="3"] { transition-delay: 1400ms; }
+/* Scene 1 hero-specific delays (200ms base, 200ms stagger — fast entrance) */
+.scene-1 [data-delay="0"] { transition-delay: 200ms; }
+.scene-1 [data-delay="1"] { transition-delay: 400ms; }
+.scene-1 [data-delay="2"] { transition-delay: 600ms; }
+.scene-1 [data-delay="3"] { transition-delay: 800ms; }
 
-/* Scene 7 tin: deeper slide-up (60px) */
-.scene-7__tin[data-animate="slide-up"] { transform: translateY(60px); }
+/* Scene 7 tin: deeper slide-up (40px) */
+.scene-7__tin[data-animate="slide-up"] { transform: translateY(40px); }
 .scene-7__tin[data-animate="slide-up"].visible { transform: translateY(0); }
-.scene-7__tin[data-animate] { transition-duration: 1000ms; }
+.scene-7__tin[data-animate] { transition-duration: 800ms; }
 
 /* ---- CTA Button ---- */
 
@@ -117,12 +153,19 @@ p {
   border: none;
   border-radius: 50px;
   cursor: pointer;
-  transition: background-color 300ms ease, box-shadow 300ms ease;
+  transition: background-color 150ms ease-out, box-shadow 150ms ease-out, transform 100ms ease-out;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .cta-button:hover {
   background-color: var(--green-sage-hover);
   box-shadow: 0 4px 24px rgba(74, 124, 89, 0.3);
+}
+
+.cta-button:active {
+  transform: scale(0.97);
+  background-color: #3D6A4B;
+  transition-duration: 50ms;
 }
 
 .cta-button--small {
@@ -136,6 +179,14 @@ p {
   position: relative;
   min-height: 100vh;
   overflow: hidden;
+  contain: layout style;
+  scroll-margin-top: 64px;
+}
+
+/* Skip rendering for off-screen scenes (auto = render when near viewport) */
+.scene-2, .scene-3, .scene-4, .scene-5, .scene-6, .scene-7 {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 100vh;
 }
 
 .bg-video {
@@ -170,7 +221,9 @@ p {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   transform: translateY(-100%);
-  transition: transform 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: transform 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform;
+  contain: layout style;
 }
 
 .floating-header.visible {
@@ -350,9 +403,9 @@ p {
   margin-bottom: 20px;
 }
 
-.scene-2__final {
+.scene-2__text-col .scene-2__final {
   font-style: italic;
-  color: var(--gold) !important;
+  color: var(--gold);
 }
 
 /* ============================================
@@ -389,12 +442,12 @@ p {
 
 /* Override animation timing for Scene 3 */
 .scene-3__content [data-animate] {
-  transition-duration: 1200ms;
+  transition-duration: 1000ms;
 }
 
-.scene-3__content [data-delay="1"] { transition-delay: 600ms; }
-.scene-3__content [data-delay="2"] { transition-delay: 1200ms; }
-.scene-3__content [data-delay="3"] { transition-delay: 1800ms; }
+.scene-3__content [data-delay="1"] { transition-delay: 300ms; }
+.scene-3__content [data-delay="2"] { transition-delay: 600ms; }
+.scene-3__content [data-delay="3"] { transition-delay: 900ms; }
 
 /* ============================================
    Scene 4: The Craft
@@ -444,6 +497,7 @@ p {
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  will-change: transform;
 }
 
 .craft-block__image span {
@@ -523,6 +577,12 @@ p {
   border-radius: 16px;
   padding: 32px;
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
+  transition: transform 150ms ease-out, box-shadow 150ms ease-out;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.10);
 }
 
 .testimonial-card__stars {
@@ -593,6 +653,12 @@ p {
   border-radius: 16px;
   padding: 40px;
   text-align: left;
+  transition: transform 150ms ease-out, border-color 150ms ease-out;
+}
+
+.benefit-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(201, 168, 108, 0.4);
 }
 
 .benefit-card h3 {
@@ -712,7 +778,9 @@ p {
   justify-content: space-between;
   padding: 0 16px;
   transform: translateY(100%);
-  transition: transform 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: transform 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform;
+  contain: layout style;
 }
 
 .mobile-cta-bar.visible {
@@ -834,6 +902,22 @@ p {
     text-align: center;
   }
 
+  /* Prevent full-width CTA leak into header and mobile bar */
+  .floating-header .cta-button,
+  .mobile-cta-bar .cta-button {
+    width: auto;
+    max-width: none;
+  }
+
+  /* Scene 6: match other scenes' responsive padding */
+  .scene-6 {
+    padding: 60px 0;
+  }
+
+  .scene-6__inner {
+    padding: 0 24px;
+  }
+
   /* Mobile sticky CTA */
   .mobile-cta-bar {
     display: flex;
@@ -860,8 +944,9 @@ p {
     grid-template-columns: 1fr;
   }
 
-  /* CTA full width */
-  .cta-button {
+  /* CTA full width — scoped to scene buttons only */
+  .scene-1__cta,
+  .scene-7__cta {
     width: calc(100% - 48px);
     max-width: none;
   }
@@ -872,5 +957,35 @@ p {
     grid-template-columns: 1fr 1fr;
     gap: 12px;
     text-align: center;
+  }
+}
+
+/* ============================================
+   Reduced Motion
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  [data-animate] {
+    opacity: 1;
+    transform: none;
+  }
+
+  .sakura-petal {
+    display: none;
+  }
+
+  .scene-1__tin {
+    animation: none;
   }
 }
