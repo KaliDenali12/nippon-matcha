@@ -132,7 +132,7 @@ Dark↔light transitions use gradient divs: `.transition-dark-to-light`, `.trans
 | `--gold` | `#C9A86C` | h3 headings, header wordmark, stars |
 | `--text-light` | `#F5F0EB` | Text on dark backgrounds |
 | `--text-dark` | `#1A1A1A` | Text on light backgrounds (Scene 5) |
-| `--text-muted` | `#A89F95` | Secondary/subtle text |
+| `--text-muted` | `#BEB5AB` | Secondary/subtle text (WCAG AA compliant on dark bg) |
 
 ### Typography
 - **Headings**: Cormorant Garamond, weight 300 (h1/h2) or 400 (h3)
@@ -161,16 +161,12 @@ Dark↔light transitions use gradient divs: `.transition-dark-to-light`, `.trans
 
 - **`tin-100g.png` is 8.4 MB** — needs conversion to WebP/AVIF (~50–150 KB target) with `<picture>` fallback. This is the #1 performance bottleneck
 - Scene 4 image placeholders (dashed-border divs with `<span>` text instead of real images)
-- Missing `width`/`height` attributes on `<img>` tags (causes CLS)
-- **No `<noscript>` fallback** — `[data-animate]` elements start at `opacity: 0` in CSS; without JS, all animated content is invisible. Needs `<noscript><style>[data-animate]{opacity:1;transform:none}</style></noscript>`
-- **`--text-muted` (#A89F95) on dark bg likely fails WCAG AA** — ~4.0:1 contrast ratio vs 4.5:1 required for small text. Needs to be lightened (e.g. ~#BEB5AB)
 - No footer (no contact info, privacy policy, or company details)
 - No favicon
 - No analytics/tracking
 - No deploy pipeline
 - No `<meta og:image>` or social sharing images
 - No `poster` attribute on `<video>` elements (no fallback frame if video fails to load)
-- Header wordmark ("Nippon Matcha") is a `<span>`, not a link — users expect logo/wordmark to navigate home
 
 ---
 

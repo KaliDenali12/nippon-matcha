@@ -14,6 +14,7 @@
   <link rel="preload" as="video" href="assets/videos/sakura-hero.mp4" type="video/mp4">
   <link rel="preload" as="image" href="assets/images/tin-100g.png">
   <link rel="stylesheet" href="styles.css">
+  <noscript><style>[data-animate]{opacity:1!important;transform:none!important}.sakura-petal{display:none}</style></noscript>
   <!-- Critical inline styles: prevent FOUC on hero content -->
   <style>
     /* Ensure hero scene paints immediately with correct layout */
@@ -32,7 +33,7 @@
   <!-- Floating Header -->
   <header class="floating-header" aria-hidden="true">
     <div class="header-inner">
-      <span class="header-wordmark">Nippon Matcha</span>
+      <a href="#scene-1" class="header-wordmark">Nippon Matcha</a>
       <a href="https://www.amazon.com/Nippon-Matcha-Ceremonial-Certified-Stone-Ground/dp/B0FFSXTJWK" target="_blank" rel="noopener" class="cta-button cta-button--small">Shop Now</a>
     </div>
   </header>
@@ -49,7 +50,7 @@
     </video>
     <div class="scene-overlay scene-1__overlay" aria-hidden="true"></div>
     <div class="scene-1__content">
-      <img src="assets/images/tin-100g.png" alt="Nippon Matcha 100g tin" class="scene-1__tin" fetchpriority="high">
+      <img src="assets/images/tin-100g.png" alt="Nippon Matcha 100g tin" class="scene-1__tin" width="4000" height="4000" fetchpriority="high">
       <h1 class="scene-1__headline" data-animate="slide-up" data-delay="0">From the First Harvest. For Your First Sip.</h1>
       <p class="scene-1__subheadline" data-animate="slide-up" data-delay="1">Organic Ceremonial Matcha from a Single Estate in Uji, Kyoto</p>
       <a href="#scene-2" class="cta-button scene-1__cta" data-animate="slide-up" data-delay="2">Discover Nippon Matcha</a>
@@ -62,7 +63,7 @@
     <div class="scene-2__inner">
       <div class="scene-2__tin-col">
         <div class="scene-2__tin-wrapper">
-          <img src="assets/images/tin-100g.png" alt="Nippon Matcha tin rotating" class="tin-rotate" loading="lazy">
+          <img src="assets/images/tin-100g.png" alt="Nippon Matcha tin rotating" class="tin-rotate" width="4000" height="4000" loading="lazy">
         </div>
       </div>
       <div class="scene-2__text-col">
@@ -220,7 +221,7 @@
     </video>
     <div class="scene-overlay scene-7__overlay" aria-hidden="true"></div>
     <div class="scene-7__content">
-      <img src="assets/images/tin-100g.png" alt="Nippon Matcha 100g tin" class="scene-7__tin" data-animate="slide-up" data-delay="0" loading="lazy">
+      <img src="assets/images/tin-100g.png" alt="Nippon Matcha 100g tin" class="scene-7__tin" width="4000" height="4000" data-animate="slide-up" data-delay="0" loading="lazy">
       <h2 class="section-headline" data-animate="fade-only" data-delay="1">Your First Sip Awaits</h2>
       <p class="scene-7__body" data-animate="fade-only" data-delay="2">One farm in Uji. One harvest each spring. Stone-ground with 800 years of tradition. This is the matcha you've been searching for.</p>
       <a href="https://www.amazon.com/Nippon-Matcha-Ceremonial-Certified-Stone-Ground/dp/B0FFSXTJWK" target="_blank" rel="noopener" class="cta-button scene-7__cta" data-animate="fade-only" data-delay="3">Begin Your Ritual — Shop on Amazon</a>
