@@ -1,16 +1,29 @@
 # Nippon Matcha — Memory Index
 
-## Project Context
-- Static landing page for Nippon Matcha (organic ceremonial-grade matcha from Uji, Kyoto)
-- Vanilla HTML/CSS/JS — no framework, no build tools
-- GitHub: https://github.com/KaliDenali12/nippon-matcha
-- Amazon product link: https://www.amazon.com/Nippon-Matcha-Ceremonial-Certified-Stone-Ground/dp/B0FFSXTJWK
+Static landing page for Nippon Matcha (organic ceremonial-grade matcha from Uji, Kyoto). Vanilla HTML/CSS/JS — no framework, no build tools. See CLAUDE.md for rules.
 
-## Cross-Cutting Patterns
-- All scroll animations use `IntersectionObserver` + `[data-animate]` attributes
-- CSS custom properties define the full color palette in `:root`
-- Videos are large assets — be mindful of repo size when adding more
-- Scene 4 has image placeholders (not real images yet)
+## Current State
+
+- **Files**: 3 source files — `index.html` (230 lines), `styles.css` (877 lines), `script.js` (224 lines)
+- **Assets**: 1 product image (`tin-100g.png`), 3 MP4 videos
+- **Known debt**: Scene 4 image placeholders (no real images), no favicon, no analytics, no deploy pipeline
+- **GitHub**: https://github.com/KaliDenali12/nippon-matcha
 
 ## Topic Files
-*No topic files yet — add as the project grows.*
+
+| File | When to load |
+|------|-------------|
+| `page-architecture.md` | Modifying HTML structure, adding/changing scenes, video behavior, header/CTA bar logic |
+| `design-system.md` | Changing colors, typography, spacing, CTA buttons, responsive breakpoints, CSS architecture |
+| `animations-interactions.md` | Adding/modifying scroll animations, IntersectionObserver, sakura particles, tin rotation, parallax, video control |
+
+## Cross-Cutting Patterns
+
+- **IntersectionObserver everywhere**: All visibility logic (animations, videos, header, mobile CTA) uses IntersectionObserver — never scroll-position checks alone
+- **Scroll listeners are passive**: Always `{ passive: true }` — never call `preventDefault()` on scroll
+- **Animations fire once**: Elements get `.visible` class then observer `unobserve()`s — no re-triggering on scroll back
+- **CSS custom properties**: All colors in `:root`. Change palette there, never hardcode hex values in rules
+- **BEM-like naming**: `scene-N__element`, `modifier--variant`, `cta-button--small`
+- **No globals**: All JS wrapped in a single IIFE with `'use strict'`
+- **Video autoplay**: Always include `muted` attribute. Always `.catch()` the `.play()` promise
+- **Amazon link**: All purchase CTAs use the same URL — update in one place if product changes
