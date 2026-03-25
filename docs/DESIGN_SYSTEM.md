@@ -138,7 +138,8 @@
 |-------|-------|
 | `0 4px 24px rgba(74,124,89,0.3)` | CTA hover glow |
 | `0 0 0 5px rgba(74,124,89,0.4)` | CTA focus ring |
-| `0 2px 16px rgba(0,0,0,0.06)` | Testimonial card subtle shadow |
+| `0 2px 16px rgba(0,0,0,0.06)` | Testimonial card resting shadow |
+| `0 4px 24px rgba(0,0,0,0.10)` | Testimonial card hover shadow |
 | `drop-shadow(0 12px 32px rgba(0,0,0,0.5))` | Tin product images (×3 duplicated) |
 | `blur(12px)` | Header + mobile bar backdrop |
 
@@ -151,7 +152,7 @@
 | Curve | Usage | Count |
 |-------|-------|-------|
 | `cubic-bezier(0.25, 0.46, 0.45, 0.94)` | Scroll animations, header/bar slide | 4× |
-| `ease` | CTA hover | 1× |
+| `ease-out` | CTA hover/active, card hover, header/bar transitions | 6× |
 | `ease-in-out` | Float, pulse, sakura sway | 3× |
 | `linear` | Sakura fall, sakura spin | 2× |
 
@@ -161,11 +162,12 @@
 
 | Duration | Context |
 |----------|---------|
-| 300ms | CTA hover (standard interaction) |
-| 400ms | Header/bar slide (UI chrome) |
-| 800ms | Default scroll entrance |
-| 1000ms | Scene 7 tin entrance |
-| 1200ms | Scene 3 ritual entrance |
+| 50ms | CTA `:active` press state |
+| 150ms | CTA hover, card hover (standard interaction) |
+| 250ms | Header/bar slide (UI chrome) |
+| 600ms | Default scroll entrance |
+| 800ms | Scene 7 tin entrance |
+| 1000ms | Scene 3 ritual entrance |
 | 2s | CTA pulse (Scene 7) |
 | 3s | Tin float (Scene 1) |
 
@@ -175,9 +177,9 @@ Three separate increment patterns:
 
 | Context | Base Delay | Increment | Range |
 |---------|-----------|-----------|-------|
-| Default (`[data-delay]`) | 0ms | 200ms | 0–1000ms |
-| Scene 1 hero | 500ms | 300ms | 500–1400ms |
-| Scene 3 ritual | 0ms | 600ms | 0–1800ms |
+| Default (`[data-delay]`) | 0ms | 150ms | 0–750ms |
+| Scene 1 hero | 200ms | 200ms | 200–800ms |
+| Scene 3 ritual | 0ms | 300ms | 0–900ms |
 
 ---
 

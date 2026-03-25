@@ -37,7 +37,9 @@ Font loading: `<link>` with `preconnect` to Google Fonts. `display=swap` ensures
 - Class: `.cta-button` — pill shape (`border-radius: 50px`)
 - Default: `padding: 18px 48px`, `font-size: 16px`, uppercase, 2px letter-spacing
 - Small: `.cta-button--small` — `padding: 10px 28px`, `font-size: 13px`
-- Hover: background → `--green-sage-hover`, `box-shadow: 0 4px 24px rgba(74,124,89,0.3)`
+- Hover: background → `--green-sage-hover`, `box-shadow: 0 4px 24px rgba(74,124,89,0.3)`, 150ms ease-out
+- Active: `scale(0.97)`, background `#3D6A4B`, 50ms transition — provides instant tap feedback
+- `-webkit-tap-highlight-color: transparent` — prevents blue flash on mobile tap
 - Mobile (≤768px): scene CTAs get `width: 100%`, `max-width: 400px`. Header and mobile bar CTAs are explicitly excluded (`width: auto`)
 - Mobile (≤480px): `.scene-1__cta` and `.scene-7__cta` get `width: calc(100% - 48px)`, `max-width: none`
 

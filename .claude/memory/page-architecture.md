@@ -25,7 +25,8 @@ All decorative elements (videos, overlays, transition divs, sakura container) ha
 - `.scene-overlay` gradient: transparent→dark bottom fade
 - Content: tin image (`fetchpriority="high"`, floating animation), h1, subheadline, CTA, micro text
 - CTA links to `#scene-2` (scroll anchor, not Amazon)
-- Hero animation delays use 300ms stagger (500ms base) — different from default 200ms
+- Hero animation delays use 200ms stagger (200ms base) — fastest scene entrance
+- Critical CSS for hero layout is inlined in `<head>` to prevent FOUC
 
 ### Scene 2 — The Origin
 - No video, solid `--bg-primary` background
@@ -35,7 +36,7 @@ All decorative elements (videos, overlays, transition divs, sakura container) ha
 
 ### Scene 3 — The Ritual
 - Video: `ritual-pour.mp4` — `preload="none"`, plays **once** when visible (triggered by IntersectionObserver), does not loop
-- Slower animation timing: 1200ms duration, 600ms stagger between elements
+- Slower animation timing: 1000ms duration, 300ms stagger between elements
 - Narrow content width: `max-width: 640px`
 
 ### Scene 4 — The Craft
@@ -57,7 +58,7 @@ All decorative elements (videos, overlays, transition divs, sakura container) ha
 
 ### Scene 7 — The Invitation (Final CTA)
 - Video: `ready-bowl.mp4` — `loop muted playsinline preload="none"`, plays/pauses on visibility
-- Tin has deeper slide-up (60px vs standard 30px) and longer duration (1000ms)
+- Tin has deeper slide-up (40px vs standard 30px) and longer duration (800ms)
 - CTA gets `.pulse` class 1s after entering viewport (2-cycle animation)
 - Trust strip: 4 spans in flex row → 2×2 grid at 480px
 - This is the primary Amazon purchase CTA
@@ -65,8 +66,9 @@ All decorative elements (videos, overlays, transition divs, sakura container) ha
 ## Video Gotchas
 
 - Videos must have `muted` attribute — browsers block autoplay without it
-- Below-fold videos (Scenes 3, 7) use `preload="none"` — bytes only fetched when JS triggers play
+- Below-fold videos (Scenes 3, 7) start with `preload="none"` — an IntersectionObserver with `rootMargin: '100% 0px'` switches to `preload="auto"` when user is ~1 viewport away
 - Scene 1 hero video has `<link rel="preload" as="video">` in `<head>` for faster first paint
+- Hero tin image also preloaded via `<link rel="preload" as="image">`
 - Scene 3 video plays only once (observer unobserves after play)
 - Scene 7 video toggles play/pause continuously as user scrolls in/out
 - All videos need `object-fit: cover` and absolute positioning within `.scene`
@@ -78,3 +80,10 @@ All decorative elements (videos, overlays, transition divs, sakura container) ha
 - **Mobile CTA bar**: Hidden (`translateY(100%)`) until Scene 3 exits viewport AND `rect.bottom < 0`. Only visible at ≤768px (CSS `display: none` on desktop). Also listens to scroll event for back-up detection. JS toggles both `.visible` class and `aria-hidden` attribute simultaneously
 
 **Important**: When showing/hiding these elements, always toggle `aria-hidden` alongside the `.visible` class — otherwise interactive links inside them become invisible to screen readers while visible, or vice versa.
+
+## Rendering Performance
+
+- **`content-visibility: auto`** on Scenes 2–7: browser skips rendering off-screen scenes. `contain-intrinsic-size: auto 100vh` preserves scroll height
+- **Critical CSS** for hero section layout inlined in `<head>` (prevents FOUC before `styles.css` loads)
+- **`will-change`** on animated elements during animation, cleared on `.visible`. Permanent on fixed chrome (header, mobile CTA bar)
+- **`contain: layout style`** on header and mobile CTA bar

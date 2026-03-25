@@ -4,10 +4,10 @@ Static landing page for Nippon Matcha (organic ceremonial-grade matcha from Uji,
 
 ## Current State
 
-- **Files**: 3 source files — `index.html` (~238 lines), `styles.css` (~960 lines), `script.js` (~249 lines)
+- **Files**: 3 source files — `index.html` (~248 lines), `styles.css` (~990 lines), `script.js` (~288 lines)
 - **Assets**: 1 product image (`tin-100g.png`, 8.4 MB — needs compression), 3 MP4 videos (~13 MB total)
 - **Known debt**: `tin-100g.png` is 8.4 MB (critical perf issue), Scene 4 image placeholders, no favicon, no analytics, no deploy pipeline
-- **Performance**: Below-fold videos use `preload="none"`, images use `loading="lazy"`, script uses `defer`, rAF loop gated by visibility
+- **Performance**: Below-fold videos prefetched 1 viewport ahead via IntersectionObserver, `content-visibility: auto` on Scenes 2–7, critical hero CSS inlined, single rAF-throttled scroll loop, `will-change` managed on animated elements
 - **GitHub**: https://github.com/KaliDenali12/nippon-matcha
 
 ## Topic Files
@@ -20,8 +20,8 @@ Static landing page for Nippon Matcha (organic ceremonial-grade matcha from Uji,
 
 ## Cross-Cutting Patterns
 
-- **IntersectionObserver everywhere**: All visibility logic (animations, videos, header, mobile CTA) uses IntersectionObserver — never scroll-position checks alone
-- **Scroll listeners are passive**: Always `{ passive: true }` — never call `preventDefault()` on scroll
+- **IntersectionObserver everywhere**: All visibility logic (animations, videos, header, mobile CTA, video prefetch) uses IntersectionObserver — never scroll-position checks alone
+- **Single rAF scroll loop**: All scroll-dependent handlers (tin rotation, mobile CTA, parallax) register via `scrollCallbacks.push()` and run in one `requestAnimationFrame` batch — never add raw `window.addEventListener('scroll', ...)` handlers
 - **Animations fire once**: Elements get `.visible` class then observer `unobserve()`s — no re-triggering on scroll back
 - **CSS custom properties**: All colors in `:root`. Change palette there, never hardcode hex values in rules
 - **BEM-like naming**: `scene-N__element`, `modifier--variant`, `cta-button--small`

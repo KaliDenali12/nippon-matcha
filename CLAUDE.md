@@ -31,9 +31,9 @@ Premium landing page for Nippon Matcha — organic ceremonial-grade matcha from 
 
 ```
 nippon-matcha/
-├── index.html              # Single-page site (all 7 scenes, ~238 lines)
-├── styles.css              # All styles (~960 lines)
-├── script.js               # All interactions (~249 lines, IIFE)
+├── index.html              # Single-page site (all 7 scenes, ~248 lines)
+├── styles.css              # All styles (~990 lines)
+├── script.js               # All interactions (~288 lines, IIFE)
 ├── CLAUDE.md               # This file
 ├── .gitignore
 ├── assets/
@@ -86,7 +86,9 @@ Dark↔light transitions use gradient divs: `.transition-dark-to-light`, `.trans
 ### Animation System
 - Scroll-triggered entrances via `IntersectionObserver` on `[data-animate]` elements
 - Types: `slide-up`, `slide-right`, `scale-up`, `fade-only`
-- Stagger via `[data-delay="0-5"]` (200ms increments; hero uses 300ms, Scene 3 uses 600ms)
+- Default duration: 600ms. Default stagger: 150ms increments (`[data-delay="0-5"]`)
+- Hero stagger: 200ms base, 200ms increments (200–800ms). Scene 3: 300ms increments (300–900ms), 1000ms duration
+- `will-change: opacity, transform` set on `[data-animate]`, cleared to `auto` on `.visible`
 - Elements get `.visible` class **once** — animations fire once, never re-trigger
 - All JS is wrapped in a single IIFE — no globals
 
@@ -95,14 +97,20 @@ Dark↔light transitions use gradient divs: `.transition-dark-to-light`, `.trans
 - Scene 3: `muted playsinline preload="none"`, plays once via IntersectionObserver
 - Scene 7: `muted playsinline preload="none"`, plays/pauses on visibility toggle
 - All videos: `object-fit: cover`, absolute-positioned backgrounds
-- Below-fold videos use `preload="none"` to avoid fetching ~10 MB on initial load
+- Below-fold videos use `preload="none"` initially; an IntersectionObserver with `rootMargin: '100% 0px'` switches to `preload="auto"` when user is ~1 viewport away
 
 ### Interactive Elements
 - **Scene 2 tin rotation**: Scroll progress → 360° Y-axis rotation with lerp (0.08 factor) + `scaleX` for 3D effect. rAF loop gated by IntersectionObserver (only runs when visible)
 - **Scene 7 CTA pulse**: 2-cycle scale pulse triggered 1s after entering viewport
-- **Floating header**: Appears when Scene 1 leaves viewport (threshold 0.5)
-- **Mobile sticky CTA bar**: Appears after Scene 3 exits (≤768px only)
+- **Floating header**: Appears when Scene 1 leaves viewport (threshold 0.5), 250ms slide transition
+- **Mobile sticky CTA bar**: Appears after Scene 3 exits (≤768px only), 250ms slide transition
 - **Scene 4 parallax**: Image placeholders translate on scroll (`0.4` factor)
+- **Card hover effects**: Testimonial cards and benefit cards have subtle `translateY(-2px)` hover lift (150ms)
+
+### Scroll Performance
+- **Single scroll listener**: All scroll-dependent logic (tin rotation, mobile CTA, parallax) runs through one rAF-throttled callback loop — never add raw `window.addEventListener('scroll', ...)` handlers
+- **`content-visibility: auto`** on Scenes 2–7 skips rendering until near viewport; `contain-intrinsic-size: auto 100vh` preserves scroll height
+- **Critical CSS inlined** in `<head>` for hero section layout (prevents FOUC)
 
 ### Sakura Particles
 - Fixed overlay, SVG petal shapes, CSS keyframe animations (fall + sway + spin)
