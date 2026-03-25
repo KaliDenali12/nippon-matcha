@@ -29,6 +29,8 @@
   const tinRotate = document.querySelector('.tin-rotate');
   let currentRotation = 0;
   let targetRotation = 0;
+  let rotationActive = false;
+  let rotationRAF = 0;
 
   if (scene2 && tinRotate) {
     window.addEventListener('scroll', function () {
@@ -43,9 +45,28 @@
       const scaleX = Math.max(Math.abs(Math.cos(radians)), 0.3);
       tinRotate.style.transform =
         'rotateY(' + currentRotation + 'deg) scaleX(' + scaleX + ')';
-      requestAnimationFrame(animateRotation);
+      if (rotationActive) {
+        rotationRAF = requestAnimationFrame(animateRotation);
+      }
     }
-    animateRotation();
+
+    const rotationObserver = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            if (!rotationActive) {
+              rotationActive = true;
+              rotationRAF = requestAnimationFrame(animateRotation);
+            }
+          } else {
+            rotationActive = false;
+            cancelAnimationFrame(rotationRAF);
+          }
+        });
+      },
+      { threshold: 0, rootMargin: '100px 0px' }
+    );
+    rotationObserver.observe(scene2);
   }
 
   // ---- Scene 3: Ritual Video — Play Once on Visible ----

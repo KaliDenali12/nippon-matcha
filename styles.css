@@ -136,6 +136,7 @@ p {
   position: relative;
   min-height: 100vh;
   overflow: hidden;
+  contain: layout style;
 }
 
 .bg-video {
@@ -444,6 +445,7 @@ p {
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  will-change: transform;
 }
 
 .craft-block__image span {
