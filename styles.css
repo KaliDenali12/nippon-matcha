@@ -316,10 +316,9 @@ p {
 }
 
 .scene-1__tin {
-  max-height: 320px;
+  max-height: 220px;
   filter: drop-shadow(0 12px 32px rgba(0, 0, 0, 0.5));
   animation: float 3s ease-in-out infinite;
-  mix-blend-mode: screen;
 }
 
 @keyframes float {
@@ -390,7 +389,6 @@ p {
 .tin-rotate {
   max-height: 240px;
   filter: drop-shadow(0 12px 32px rgba(0, 0, 0, 0.5));
-  mix-blend-mode: screen;
   will-change: transform;
 }
 
@@ -703,9 +701,8 @@ p {
 }
 
 .scene-7__tin {
-  max-height: 240px;
+  max-height: 180px;
   filter: drop-shadow(0 12px 32px rgba(0, 0, 0, 0.5));
-  mix-blend-mode: screen;
 }
 
 .scene-7__content .section-headline {
@@ -815,7 +812,7 @@ p {
 
   /* Scene 1 */
   .scene-1__tin {
-    max-height: 200px;
+    max-height: 160px;
   }
 
   .scene-1__headline {

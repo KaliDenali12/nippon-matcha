@@ -116,7 +116,8 @@
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             ritualVideo.play().catch(function () {});
-            ritualObserver.unobserve(entry.target);
+          } else {
+            ritualVideo.pause();
           }
         });
       },
