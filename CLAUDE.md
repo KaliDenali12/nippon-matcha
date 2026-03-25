@@ -186,3 +186,7 @@ Dark↔light transitions use gradient divs: `.transition-dark-to-light`, `.trans
 **Navigation**: MEMORY.md index → topic file. Max 1 hop from cold start to answer. Every file reachable from MEMORY.md.
 
 Rule: Prevents mistakes on unrelated tasks → CLAUDE.md. Spans features → MEMORY.md cross-cutting patterns. One feature → topic file. Single line → inline comment.
+
+## NightyTidy — Last Run
+
+Last run: 2026-03-25. To undo, reset to git tag `nightytidy-before-2026-03-25-1424`.
