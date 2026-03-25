@@ -116,7 +116,7 @@ Dark↔light transitions use gradient divs: `.transition-dark-to-light`, `.trans
 | `--bg-sakura-tint` | `#FEF0F0` | Scene 5 (testimonials) background |
 | `--green-sage` | `#4A7C59` | Primary CTA buttons |
 | `--green-sage-hover` | `#5A9469` | CTA hover state |
-| `--pink-sakura` | `#E8A0BF` | Sakura accent |
+| `--pink-sakura` | `#E8A0BF` | Defined but unused — sakura particles hardcode colors in `script.js:186` |
 | `--gold` | `#C9A86C` | h3 headings, header wordmark, stars |
 | `--text-light` | `#F5F0EB` | Text on dark backgrounds |
 | `--text-dark` | `#1A1A1A` | Text on light backgrounds (Scene 5) |

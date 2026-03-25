@@ -11,7 +11,7 @@ All colors defined as CSS custom properties in `:root` (`styles.css:5-16`):
 | `--bg-sakura-tint` | `#FEF0F0` | Scene 5 background only |
 | `--green-sage` | `#4A7C59` | CTA buttons default state |
 | `--green-sage-hover` | `#5A9469` | CTA hover + box-shadow |
-| `--pink-sakura` | `#E8A0BF` | Sakura particle accent |
+| `--pink-sakura` | `#E8A0BF` | Defined but unused — sakura particles hardcode hex values in `script.js:186` instead |
 | `--gold` | `#C9A86C` | h3 headings, header wordmark, stars, italic accent text |
 | `--text-light` | `#F5F0EB` | Primary text on dark backgrounds |
 | `--text-dark` | `#1A1A1A` | Text on light backgrounds (Scene 5 only) |
