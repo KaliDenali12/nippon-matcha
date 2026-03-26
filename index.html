@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
   <link rel="preload" as="video" href="assets/videos/sakura-hero.mp4" type="video/mp4">
-  <link rel="preload" as="image" href="assets/images/tin-100g.png">
+  <link rel="preload" as="image" href="assets/images/tin-100g.webp" type="image/webp">
   <link rel="stylesheet" href="styles.css">
   <noscript><style>[data-animate]{opacity:1!important;transform:none!important}.sakura-petal{display:none}</style></noscript>
   <!-- Critical inline styles: prevent FOUC on hero content -->
@@ -55,13 +55,25 @@
     </video>
     <div class="scene-overlay scene-1__overlay" aria-hidden="true"></div>
     <div class="scene-1__content">
-      <img src="assets/images/tin-100g.png" alt="Nippon Matcha 100g tin" class="scene-1__tin" width="4000" height="4000" fetchpriority="high">
-      <h1 class="scene-1__brand" data-animate="fade-only" data-delay="0">Nippon Matcha</h1>
-      <p class="scene-1__tagline" data-animate="fade-only" data-delay="1">First Harvest. Stone-Ground. Uji, Kyoto.</p>
-      <a href="#scene-3" class="cta-button scene-1__cta" data-animate="fade-only" data-delay="2">Discover</a>
+      <picture>
+        <source srcset="assets/images/tin-100g.webp" type="image/webp">
+        <img src="assets/images/tin-100g.png" alt="Nippon Matcha 100g tin" class="scene-1__tin" width="4000" height="4000" fetchpriority="high">
+      </picture>
+      <p class="scene-1__wordmark" data-animate="fade-only" data-delay="0">Nippon Matcha</p>
+      <h1 class="scene-1__brand" data-animate="fade-only" data-delay="1">From the First Harvest.<br>For Your First Sip.</h1>
+      <a href="#scene-2" class="cta-button scene-1__cta" data-animate="fade-only" data-delay="2">Discover</a>
     </div>
   </section>
 
+  <!-- Scene 2: The Origin -->
+  <section class="scene scene-2" id="scene-2" aria-label="Our Origin">
+    <div class="scene-2__content">
+      <div class="scene-2__divider" data-animate="fade-only" data-delay="0" aria-hidden="true"></div>
+      <h2 class="scene-2__headline" data-animate="slide-up" data-delay="1">One Farm. One Harvest.<br>Nothing Hidden.</h2>
+      <p data-animate="fade-only" data-delay="2">Every tin of Nippon Matcha begins in Uji, Kyoto — the birthplace of Japanese matcha culture, where tea has been cultivated for over 800 years.</p>
+      <p class="scene-2__final" data-animate="fade-only" data-delay="3">This is what ceremonial grade was always supposed to taste like.</p>
+    </div>
+  </section>
 
   <!-- Scene 3: The Ritual -->
   <section class="scene scene-3" id="scene-3" aria-label="The Ritual">
@@ -71,7 +83,8 @@
     <div class="scene-overlay scene-3__overlay" aria-hidden="true"></div>
     <div class="scene-3__content">
       <h2 class="section-headline" data-animate="fade-only" data-delay="0">A Ritual You Can Taste</h2>
-      <p data-animate="fade-only" data-delay="1">Scoop. Whisk. Sip. Three minutes of calm that belong entirely to you.</p>
+      <p data-animate="fade-only" data-delay="1">Your first sip is vegetal and bright — like spring arriving. Then the umami unfolds, deep and savory, grounding you. The finish is naturally sweet, clean, with no bitterness. Just calm, sustained clarity.</p>
+      <p data-animate="fade-only" data-delay="2">This is not a beverage. This is a pause. A three-minute ceremony that belongs entirely to you.</p>
     </div>
   </section>
 
@@ -162,6 +175,29 @@
   <!-- Transition: light to dark -->
   <div class="transition-light-to-dark" aria-hidden="true"></div>
 
+  <!-- Scene 6: The Promise -->
+  <section class="scene scene-6" id="scene-6" aria-label="Our Promise">
+    <div class="scene-6__inner">
+      <h2 class="section-headline" data-animate="slide-up" data-delay="0">What Nippon Matcha Brings to Your Day</h2>
+
+      <div class="benefit-cards">
+        <div class="benefit-card" data-animate="scale-up" data-delay="1">
+          <h3>Sustained Clarity</h3>
+          <p>Rich in L-theanine and natural caffeine, Nippon Matcha delivers 4–6 hours of focused, calm energy — without the jitters or crash of coffee.</p>
+        </div>
+
+        <div class="benefit-card" data-animate="scale-up" data-delay="2">
+          <h3>A Moment of Stillness</h3>
+          <p>The three minutes it takes to prepare your matcha is the most intentional part of your morning. A daily ceremony that grounds you before the world rushes in.</p>
+        </div>
+
+        <div class="benefit-card" data-animate="scale-up" data-delay="3">
+          <h3>Uncompromising Purity</h3>
+          <p>Organic, single-origin, first-harvest, stone-ground, lab-tested. Every word on our label is a promise — no fillers, no blends, no compromises.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- Scene 7: The Invitation (Final CTA) -->
   <section class="scene scene-7" id="scene-7" aria-label="Shop Now">
@@ -170,9 +206,19 @@
     </video>
     <div class="scene-overlay scene-7__overlay" aria-hidden="true"></div>
     <div class="scene-7__content">
-      <img src="assets/images/tin-100g.png" alt="Nippon Matcha 100g tin" class="scene-7__tin" width="4000" height="4000" data-animate="slide-up" data-delay="0" loading="lazy">
+      <picture>
+        <source srcset="assets/images/tin-100g.webp" type="image/webp">
+        <img src="assets/images/tin-100g.png" alt="Nippon Matcha 100g tin" class="scene-7__tin" width="4000" height="4000" data-animate="slide-up" data-delay="0" loading="lazy">
+      </picture>
       <a href="https://www.amazon.com/Nippon-Matcha-Ceremonial-Certified-Stone-Ground/dp/B0FFSXTJWK" target="_blank" rel="noopener" class="cta-button scene-7__cta" data-animate="fade-only" data-delay="1">Begin Your Ritual — Shop on Amazon</a>
-      <p class="scene-7__risk" data-animate="fade-only" data-delay="2">Backed by Amazon's return policy. If it's not the best matcha you've ever tasted, send it back.</p>
+      <p class="scene-7__price" data-animate="fade-only" data-delay="2">$50 · 100g · Free Shipping</p>
+      <div class="trust-strip" data-animate="fade-only" data-delay="3">
+        <span>USDA Organic</span>
+        <span>Lab-Tested</span>
+        <span>Single Estate</span>
+        <span>Uji, Kyoto</span>
+      </div>
+      <p class="scene-7__risk" data-animate="fade-only" data-delay="4">Backed by Amazon's return policy. If it's not the best matcha you've ever tasted, send it back.</p>
     </div>
   </section>
 
