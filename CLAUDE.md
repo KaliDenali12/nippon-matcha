@@ -71,7 +71,7 @@ Vertical scroll through 7 full-viewport narrative sections:
 |---|-------|----|------------|-------------|
 | 1 | The Arrival | `#scene-1` | `sakura-hero.mp4` (autoplay loop) | Floating tin, hero headline, CTA |
 | 2 | The Origin | `#scene-2` | Solid dark | Scroll-linked tin rotation (360° Y-axis) |
-| 3 | The Ritual | `#scene-3` | `ritual-pour.mp4` (play once) | Slow entrance animations (1200ms) |
+| 3 | The Ritual | `#scene-3` | `ritual-pour.mp4` (loop while visible) | Slow entrance animations (1200ms) |
 | 4 | The Craft | `#scene-4` | Solid dark | 4 alternating image/text blocks (images are placeholders) |
 | 5 | The Testimony | `#scene-5` | Light sakura tint | 5 testimonial cards, 3→2→1 col responsive |
 | 6 | The Promise | `#scene-6` | Solid dark | 3 benefit cards |
@@ -94,7 +94,7 @@ Dark↔light transitions use gradient divs: `.transition-dark-to-light`, `.trans
 
 ### Video Strategy
 - Scene 1: `autoplay loop muted playsinline` (always playing), preloaded via `<link rel="preload">`
-- Scene 3: `muted playsinline preload="none"`, plays once via IntersectionObserver
+- Scene 3: `loop muted playsinline preload="none"`, loops while visible via IntersectionObserver
 - Scene 7: `muted playsinline preload="none"`, plays/pauses on visibility toggle
 - All videos: `object-fit: cover`, absolute-positioned backgrounds
 - Below-fold videos use `preload="none"` initially; an IntersectionObserver with `rootMargin: '100% 0px'` switches to `preload="auto"` when user is ~1 viewport away
@@ -125,7 +125,7 @@ Dark↔light transitions use gradient divs: `.transition-dark-to-light`, `.trans
 |-------|-------|-------|
 | `--bg-primary` | `#1A1A1A` | Dark scene backgrounds |
 | `--bg-cream` | `#FFF8F0` | CTA button text |
-| `--bg-sakura-tint` | `#FEF0F0` | Scene 5 (testimonials) background |
+| `--bg-sakura-tint` | `#F5F0E8` | Scene 5 (testimonials) background |
 | `--green-sage` | `#4A7C59` | Primary CTA buttons |
 | `--green-sage-hover` | `#5A9469` | CTA hover state |
 | `--pink-sakura` | `#E8A0BF` | Defined but unused — sakura particles hardcode colors in `script.js:186` |

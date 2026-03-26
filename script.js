@@ -159,16 +159,16 @@
     const headerObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
+          if (entry.isIntersecting && entry.intersectionRatio > 0.95) {
             header.classList.remove('visible');
             header.setAttribute('aria-hidden', 'true');
-          } else if (!entry.isIntersecting) {
+          } else {
             header.classList.add('visible');
             header.setAttribute('aria-hidden', 'false');
           }
         });
       },
-      { threshold: [0, 0.5] }
+      { threshold: [0, 0.95] }
     );
     headerObserver.observe(scene1);
 
@@ -196,6 +196,7 @@
             const rect = scene3.getBoundingClientRect();
             if (rect.bottom < 0) {
               mobileCta.classList.add('visible');
+              mobileCta.setAttribute('aria-hidden', 'false');
             }
           }
         });
