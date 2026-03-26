@@ -140,6 +140,15 @@
       { threshold: [0, 0.5] }
     );
     headerObserver.observe(scene1);
+
+    // Show header immediately when Discover button is clicked
+    var discoverBtn = document.querySelector('.scene-1__cta');
+    if (discoverBtn) {
+      discoverBtn.addEventListener('click', function () {
+        header.classList.add('visible');
+        header.setAttribute('aria-hidden', 'false');
+      });
+    }
   }
 
   // ---- Mobile Sticky CTA Bar ----
