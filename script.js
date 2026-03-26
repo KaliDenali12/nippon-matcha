@@ -5,6 +5,37 @@
 (function () {
   'use strict';
 
+  // ---- Hero Video Crossfade Loop ----
+
+  var heroA = document.querySelector('.hero-video--a');
+  var heroB = document.querySelector('.hero-video--b');
+
+  if (heroA && heroB) {
+    var crossfadeDuration = 1; // seconds — matches CSS transition
+
+    function setupCrossfade(current, next) {
+      current.addEventListener('timeupdate', function onTime() {
+        var remaining = current.duration - current.currentTime;
+        if (remaining <= crossfadeDuration && remaining > 0) {
+          // Start the next video and crossfade
+          next.currentTime = 0;
+          next.play().catch(function () {});
+          next.style.opacity = '1';
+          current.style.opacity = '0';
+          current.removeEventListener('timeupdate', onTime);
+
+          // When current finishes fading, pause it and set up reverse crossfade
+          setTimeout(function () {
+            current.pause();
+            setupCrossfade(next, current);
+          }, crossfadeDuration * 1000);
+        }
+      });
+    }
+
+    setupCrossfade(heroA, heroB);
+  }
+
   // ---- Scroll Handler Throttling (rAF-based) ----
 
   const scrollCallbacks = [];
